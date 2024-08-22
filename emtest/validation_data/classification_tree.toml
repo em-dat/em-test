@@ -1,0 +1,560 @@
+[[columns]]
+id = "classif_key"
+label = "Classification Key"
+
+[[columns]]
+id = "group"
+label = "Group"
+
+[[columns]]
+id = "subgroup"
+label = "Subgroup"
+
+[[columns]]
+id = "type"
+label = "Type"
+
+[[columns]]
+id = "subtype"
+label = "Subtype"
+
+[[rows]]
+classif_key = "nat-bio-ani-ani"
+group = "Natural"
+subgroup = "Biological"
+type = "Animal incident"
+subtype = "Animal incident"
+
+[[rows]]
+classif_key = "nat-bio-epi-bac"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Bacterial disease"
+
+[[rows]]
+classif_key = "nat-bio-epi-dis"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Infectious disease (General)"
+
+[[rows]]
+classif_key = "nat-bio-epi-fun"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Fungal disease"
+
+[[rows]]
+classif_key = "nat-bio-epi-par"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Parasitic disease"
+
+[[rows]]
+classif_key = "nat-bio-epi-pri"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Prion disease"
+
+[[rows]]
+classif_key = "nat-bio-epi-vir"
+group = "Natural"
+subgroup = "Biological"
+type = "Epidemic"
+subtype = "Viral disease"
+
+[[rows]]
+classif_key = "nat-bio-inf-gra"
+group = "Natural"
+subgroup = "Biological"
+type = "Infestation"
+subtype = "Grasshopper infestation"
+
+[[rows]]
+classif_key = "nat-bio-inf-inf"
+group = "Natural"
+subgroup = "Biological"
+type = "Infestation"
+subtype = "Infestation (General)"
+
+[[rows]]
+classif_key = "nat-bio-inf-loc"
+group = "Natural"
+subgroup = "Biological"
+type = "Infestation"
+subtype = "Locust infestation"
+
+[[rows]]
+classif_key = "nat-bio-inf-wor"
+group = "Natural"
+subgroup = "Biological"
+type = "Infestation"
+subtype = "Worms infestation"
+
+[[rows]]
+classif_key = "nat-cli-dro-dro"
+group = "Natural"
+subgroup = "Climatological"
+type = "Drought"
+subtype = "Drought"
+
+[[rows]]
+classif_key = "nat-cli-glo-glo"
+group = "Natural"
+subgroup = "Climatological"
+type = "Glacial lake outburst flood"
+subtype = "Glacial lake outburst flood"
+
+[[rows]]
+classif_key = "nat-cli-wil-for"
+group = "Natural"
+subgroup = "Climatological"
+type = "Wildfire"
+subtype = "Forest fire"
+
+[[rows]]
+classif_key = "nat-cli-wil-lan"
+group = "Natural"
+subgroup = "Climatological"
+type = "Wildfire"
+subtype = "Land fire (Brush, Bush, Pasture)"
+
+[[rows]]
+classif_key = "nat-cli-wil-wil"
+group = "Natural"
+subgroup = "Climatological"
+type = "Wildfire"
+subtype = "Wildfire (General)"
+
+[[rows]]
+classif_key = "nat-ext-imp-air"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Impact"
+subtype = "Airburst"
+
+[[rows]]
+classif_key = "nat-ext-imp-col"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Impact"
+subtype = "Collision"
+
+[[rows]]
+classif_key = "nat-ext-spa-ene"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Space weather"
+subtype = "Energetic particles"
+
+[[rows]]
+classif_key = "nat-ext-spa-geo"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Space weather"
+subtype = "Geomagnetic storm"
+
+[[rows]]
+classif_key = "nat-ext-spa-rad"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Space weather"
+subtype = "Radio disturbance"
+
+[[rows]]
+classif_key = "nat-ext-spa-sho"
+group = "Natural"
+subgroup = "Extra-terrestrial"
+type = "Space weather"
+subtype = "Shockwave"
+
+[[rows]]
+classif_key = "nat-geo-ear-gro"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Earthquake"
+subtype = "Ground movement"
+
+[[rows]]
+classif_key = "nat-geo-ear-tsu"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Earthquake"
+subtype = "Tsunami"
+
+[[rows]]
+classif_key = "nat-geo-mmd-ava"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Mass movement (dry)"
+subtype = "Avalanche (dry)"
+
+[[rows]]
+classif_key = "nat-geo-mmd-lan"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Mass movement (dry)"
+subtype = "Landslide (dry)"
+
+[[rows]]
+classif_key = "nat-geo-mmd-roc"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Mass movement (dry)"
+subtype = "Rockfall (dry)"
+
+[[rows]]
+classif_key = "nat-geo-mmd-sub"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Mass movement (dry)"
+subtype = "Sudden Subsidence (dry)"
+
+[[rows]]
+classif_key = "nat-geo-vol-ash"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Volcanic activity"
+subtype = "Ash fall"
+
+[[rows]]
+classif_key = "nat-geo-vol-lah"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Volcanic activity"
+subtype = "Lahar"
+
+[[rows]]
+classif_key = "nat-geo-vol-lav"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Volcanic activity"
+subtype = "Lava flow"
+
+[[rows]]
+classif_key = "nat-geo-vol-pyr"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Volcanic activity"
+subtype = "Pyroclastic flow"
+
+[[rows]]
+classif_key = "nat-geo-vol-vol"
+group = "Natural"
+subgroup = "Geophysical"
+type = "Volcanic activity"
+subtype = "Volcanic activity (General)"
+
+[[rows]]
+classif_key = "nat-hyd-flo-coa"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Flood"
+subtype = "Coastal flood"
+
+[[rows]]
+classif_key = "nat-hyd-flo-fla"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Flood"
+subtype = "Flash flood"
+
+[[rows]]
+classif_key = "nat-hyd-flo-flo"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Flood"
+subtype = "Flood (General)"
+
+[[rows]]
+classif_key = "nat-hyd-flo-ice"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Flood"
+subtype = "Ice jam flood"
+
+[[rows]]
+classif_key = "nat-hyd-flo-riv"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Flood"
+subtype = "Riverine flood"
+
+[[rows]]
+classif_key = "nat-hyd-mmw-ava"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Mass movement (wet)"
+subtype = "Avalanche (wet)"
+
+[[rows]]
+classif_key = "nat-hyd-mmw-lan"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Mass movement (wet)"
+subtype = "Landslide (wet)"
+
+[[rows]]
+classif_key = "nat-hyd-mmw-mud"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Mass movement (wet)"
+subtype = "Mudslide"
+
+[[rows]]
+classif_key = "nat-hyd-mmw-roc"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Mass movement (wet)"
+subtype = "Rockfall (wet)"
+
+[[rows]]
+classif_key = "nat-hyd-mmw-sub"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Mass movement (wet)"
+subtype = "Sudden Subsidence (wet)"
+
+[[rows]]
+classif_key = "nat-hyd-wav-rog"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Wave action"
+subtype = "Rogue wave"
+
+[[rows]]
+classif_key = "nat-hyd-wav-sei"
+group = "Natural"
+subgroup = "Hydrological"
+type = "Wave action"
+subtype = "Seiche"
+
+
+[[rows]]
+classif_key = "nat-met-ext-col"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Extreme temperature"
+subtype = "Cold wave"
+
+[[rows]]
+classif_key = "nat-met-ext-hea"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Extreme temperature"
+subtype = "Heat wave"
+
+[[rows]]
+classif_key = "nat-met-ext-sev"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Extreme temperature"
+subtype = "Severe winter conditions"
+
+[[rows]]
+classif_key = "nat-met-fog-fog"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Fog"
+subtype = "Fog"
+
+[[rows]]
+classif_key = "nat-met-sto-bli"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Blizzard/Winter storm"
+
+[[rows]]
+classif_key = "nat-met-sto-der"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Derecho"
+
+[[rows]]
+classif_key = "nat-met-sto-ext"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Extra-tropical storm"
+
+[[rows]]
+classif_key = "nat-met-sto-hai"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Hail"
+
+[[rows]]
+classif_key = "nat-met-sto-lig"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Lightning/Thunderstorms"
+
+[[rows]]
+classif_key = "nat-met-sto-san"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Sand/Dust storm"
+
+[[rows]]
+classif_key = "nat-met-sto-sev"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Severe weather"
+
+[[rows]]
+classif_key = "nat-met-sto-sto"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Storm (General)"
+
+[[rows]]
+classif_key = "nat-met-sto-sur"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Storm surge"
+
+[[rows]]
+classif_key = "nat-met-sto-tor"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Tornado"
+
+[[rows]]
+classif_key = "nat-met-sto-tro"
+group = "Natural"
+subgroup = "Meteorological"
+type = "Storm"
+subtype = "Tropical cyclone"
+
+[[rows]]
+classif_key = "tec-ind-che-che"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Chemical spill"
+subtype = "Chemical spill"
+
+[[rows]]
+classif_key = "tec-ind-col-col"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Collapse (Industrial)"
+subtype = "Collapse (Industrial)"
+
+[[rows]]
+classif_key = "tec-ind-exp-exp"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Explosion (Industrial)"
+subtype = "Explosion (Industrial)"
+
+[[rows]]
+classif_key = "tec-ind-fir-fir"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Fire (Industrial)"
+subtype = "Fire (Industrial)"
+
+[[rows]]
+classif_key = "tec-ind-gas-gas"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Gas leak"
+subtype = "Gas leak"
+
+[[rows]]
+classif_key = "tec-ind-ind-ind"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Industrial accident (General)"
+subtype = "Industrial accident (General)"
+
+[[rows]]
+classif_key = "tec-ind-oil-oil"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Oil spill"
+subtype = "Oil spill"
+
+[[rows]]
+classif_key = "tec-ind-poi-poi"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Poisoning"
+subtype = "Poisoning"
+
+[[rows]]
+classif_key = "tec-ind-rad-rad"
+group = "Technological"
+subgroup = "Industrial accident"
+type = "Radiation"
+subtype = "Radiation"
+
+[[rows]]
+classif_key = "tec-mis-col-col"
+group = "Technological"
+subgroup = "Miscellaneous accident"
+type = "Collapse (Miscellaneous)"
+subtype = "Collapse (Miscellaneous)"
+
+[[rows]]
+classif_key = "tec-mis-exp-exp"
+group = "Technological"
+subgroup = "Miscellaneous accident"
+type = "Explosion (Miscellaneous)"
+subtype = "Explosion (Miscellaneous)"
+
+[[rows]]
+classif_key = "tec-mis-fir-fir"
+group = "Technological"
+subgroup = "Miscellaneous accident"
+type = "Fire (Miscellaneous)"
+subtype = "Fire (Miscellaneous)"
+
+[[rows]]
+classif_key = "tec-mis-mis-mis"
+group = "Technological"
+subgroup = "Miscellaneous accident"
+type = "Miscellaneous accident (General)"
+subtype = "Miscellaneous accident (General)"
+
+[[rows]]
+classif_key = "tec-tra-air-air"
+group = "Technological"
+subgroup = "Transport"
+type = "Air"
+subtype = "Air"
+
+[[rows]]
+classif_key = "tec-tra-rai-rai"
+group = "Technological"
+subgroup = "Transport"
+type = "Rail"
+subtype = "Rail"
+
+[[rows]]
+classif_key = "tec-tra-roa-roa"
+group = "Technological"
+subgroup = "Transport"
+type = "Road"
+subtype = "Road"
+
+
+[[rows]]
+classif_key = "tec-tra-wat-wat"
+group = "Technological"
+subgroup = "Transport"
+type = "Water"
+subtype = "Water"
