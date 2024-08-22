@@ -64,15 +64,6 @@ def validate_iso3_code(iso3_country_code: Series[str]) -> Series[bool]:
     return iso3_country_code.str.match(r'^[A-Z]{3}$')
 
 
-# def validate_earthquake_magnitude_(df: pd.DataFrame) -> Series[bool]:
-#     valid = pd.Series([True] * len(df), index=df.index)
-#     is_earthquake = df['Disaster Type'] == 'Earthquake'
-#     magnitude_check = (df[is_earthquake]['Magnitude'].between(3, 10) &
-#                        (~df[is_earthquake]['Magnitude'].isna()))
-#     valid.loc[is_earthquake] = magnitude_check
-#     return valid
-
-
 def validate_earthquake_magnitude(data: pd.DataFrame) -> bool:
     earthquake_data = data[data['Disaster Type'] == 'Earthquake']
     # Check if all Magnitude values for Earthquakes are within specified range
