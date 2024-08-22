@@ -13,7 +13,6 @@ from pandera import Check, Column, DataFrameSchema, Index, Timestamp
 
 from .custom_checks import (
     is_valid_json,
-    validate_earthquake_magnitude,
     validate_external_id,
     validate_iso3_code
 )
@@ -472,7 +471,7 @@ earthquake_schema = update_column_checks(
         Check.in_range(
             min_value=3,
             max_value=10,
-            description="Test whether value is between 6 and 10",
+            description="Test whether value is between 3 and 10",
             name="check_earthquake_magnitude",
             error="Invalid earthquake magnitude"
         )
