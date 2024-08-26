@@ -1,7 +1,13 @@
 # EM-TEST
 
 EM-TEST is a testing framework for the [EM-DAT](www.emdat.be) public data
-relying on the [`pandas`]() and [`pandera`]() Python packages.
+relying on the [`pandas`](https://pandas.pydata.org/) and 
+[`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
+
+> [!IMPORTANT]
+> This version of EM-TEST has been built for EM-DAT public data on 2024/08/26.
+> Some tests should fail for version prior to this date. EM-TEST is not suited 
+> for EM-DAT versions prior to September, 26, 2023. 
 
 ## Why using EM-TEST?
 
@@ -27,14 +33,11 @@ So, why using EM-TEST? Here is five reasons:
    archive of EM-DAT? You can download EM-TEST and quickly customize the
    validation scheme to fit your own needs.
 
-## EM-DAT Validation Scheme
-
-EM-DAT validation scheme is available with the command:
-```python
-from emtest import emdat_schema 
-```
+## EM-DAT Validation Schema
 
 ### Data Type Validation
+
+The table shows type constraints check with the implemented validation schema.
 
 | Column                                     | Type      | Nullable | Unique |
 |--------------------------------------------|-----------|----------|--------|
@@ -121,56 +124,56 @@ last-year CPI is set to 100, which makes it very unlikely to have values above
 100, because it would refer to a year of deflation 
 (See [EM-DAT Documentation](https://doc.emdat.be/docs/protocols/economic-adjustment/)). 
 
-| Column                                    | Test Name                        | Test Description                            | Test Type |
-|-------------------------------------------|----------------------------------|---------------------------------------------|-----------|
-| DisNo.                                    | check_disno                      | Validate value using regular expression     | Error     |
-| Historic                                  | check_yes_no                     | Test whether value is either 'Yes' or 'No'  | Error     |
-| Classification Key                        | check_classification_key         | Test whether value is in the reference list | Error     |
-| Disaster Group                            | check_group                      | Test whether value is in the reference list | Error     |
-| Disaster Subgroup                         | check_subgroup                   | Test whether value is in the reference list | Error     |
-| Disaster Type                             | check_type                       | Test whether value is in the reference list | Error     |
-| Disaster Subtype                          | check_subtype                    | Test whether value is in the reference list | Error     |
-| External IDs                              | validate_external_id             | Validate values using regular expressions   | Error     |
-| Event Name                                | -                                | -                                           | -         |
-| ISO                                       | validate_iso3_code               | Validate values using regular expressions   | Error     |
-|                                           | check_iso3_code                  | Test whether value is in the reference list | Warning   |
-| Country                                   | check_country                    | Test whether value is in the reference list | Warning   |
-| Subregion                                 | check_subregion                  | Test whether value is in the reference list | Error     |
-| Region                                    | check_region                     | Test whether value is in the reference list | Error     |
-| Location                                  | -                                | -                                           | -         |
-| Origin                                    | -                                | -                                           | -         |
-| Associated Types                          | -                                | -                                           | -         |
-| OFDA/BHA Response                         | check_yes_no                     | Test whether value is either 'Yes' or 'No'  | Error     |
-| Appeal                                    | check_yes_no                     | Test whether value is either 'Yes' or 'No'  | Error     |
-| Declaration                               | check_yes_no                     | Test whether value is either 'Yes' or 'No'  | Error     |
-| AID Contribution ('000 US$)               | greater_than(0.)                 | Test whether value is greater than 0        | Error     |
-| Magnitude                                 | -                                | -                                           | -         |
-| Magnitude Scale                           | check_magnitude_unit             | Test whether value is in the reference list | Error     |
-| Latitude                                  | in_range(-90., 90.)              | Test whether value is within range -90-90  | Error     |
-| Longitude                                 | in_range(-180., 180.)            | Test whether value is within range -180-180 | Error     |
-| River Basin                               | -                                | -                                           | -         |
-| Start Year                                | in_range(1900, CURRENT_YEAR)     | Test whether value is within range 1900-{CURRENT_YEAR} | Error     |
-|                                           | check_disno_vs_start_year[^2]    | Test that start year is the same as in DisNo | Warning   |   
-| Start Month                               | check_month                      | Test whether value is a valid month number (1-12) | Error     |
-| Start Day                                 | check_day                        | Test whether value is a valid day number (1-31) | Error     |
-| End Year                                  | in_range(1900, CURRENT_YEAR)     | Test whether value is within range 1900-{CURRENT_YEAR} | Error     |
-| End Month                                 | check_month                      | Test whether value is a valid month number (1-12) | Error     |
-| End Day                                   | check_day                        | Test whether value is a valid day number (1-31) | Error     |
-| Total Deaths                              | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| No. Injured                               | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| No. Affected                              | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| No. Homeless                              | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Total Affected                            | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Reconstruction Costs ('000 US$)           | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Reconstruction Costs, Adjusted ('000 US$) | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Insured Damage ('000 US$)                 | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Insured Damage, Adjusted ('000 US$)       | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Total Damage ('000 US$)                   | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| Total Damage, Adjusted ('000 US$)         | greater_than(0.)                 | Test whether value is greater than 0       | Error     |
-| CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-100   | Warning   |
-| Admin Units                               | is_valid_json                    | Test whether value is a json string        | Error     |
-| Entry Date                                | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range | Error     |
-| Last Update                               | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range | Error     |
+| Column                                    | Test Name                        | Test Description                                         | Test Type |
+|-------------------------------------------|----------------------------------|----------------------------------------------------------|-----------|
+| DisNo.                                    | check_disno                      | Validate value using regular expression                  | Error     |
+| Historic                                  | check_yes_no                     | Test whether value is either 'Yes' or 'No'               | Error     |
+| Classification Key                        | check_classification_key         | Test whether value is in the reference list              | Error     |
+| Disaster Group                            | check_group                      | Test whether value is in the reference list              | Error     |
+| Disaster Subgroup                         | check_subgroup                   | Test whether value is in the reference list              | Error     |
+| Disaster Type                             | check_type                       | Test whether value is in the reference list              | Error     |
+| Disaster Subtype                          | check_subtype                    | Test whether value is in the reference list              | Error     |
+| External IDs                              | validate_external_id             | Validate values using regular expressions                | Error     |
+| Event Name                                | -                                | -                                                        | -         |
+| ISO                                       | validate_iso3_code               | Validate values using regular expressions                | Error     |
+|                                           | check_iso3_code                  | Test whether value is in the reference list              | Warning   |
+| Country                                   | check_country                    | Test whether value is in the reference list              | Warning   |
+| Subregion                                 | check_subregion                  | Test whether value is in the reference list              | Error     |
+| Region                                    | check_region                     | Test whether value is in the reference list              | Error     |
+| Location                                  | -                                | -                                                        | -         |
+| Origin                                    | -                                | -                                                        | -         |
+| Associated Types                          | -                                | -                                                        | -         |
+| OFDA/BHA Response                         | check_yes_no                     | Test whether value is either 'Yes' or 'No'               | Error     |
+| Appeal                                    | check_yes_no                     | Test whether value is either 'Yes' or 'No'               | Error     |
+| Declaration                               | check_yes_no                     | Test whether value is either 'Yes' or 'No'               | Error     |
+| AID Contribution ('000 US$)               | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Magnitude                                 | -                                | -                                                        | -         |
+| Magnitude Scale                           | check_magnitude_unit             | Test whether value is in the reference list              | Error     |
+| Latitude                                  | in_range(-90., 90.)              | Test whether value is within range -90-90                | Error     |
+| Longitude                                 | in_range(-180., 180.)            | Test whether value is within range -180-180              | Error     |
+| River Basin                               | -                                | -                                                        | -         |
+| Start Year                                | in_range(1900, CURRENT_YEAR)     | Test whether value is within range 1900-{CURRENT_YEAR}   | Error     |
+|                                           | check_disno_vs_start_year[^2]    | Test that start year is the same as in DisNo             | Warning   |   
+| Start Month                               | check_month                      | Test whether value is a valid month number (1-12)        | Error     |
+| Start Day                                 | check_day                        | Test whether value is a valid day number (1-31)          | Error     |
+| End Year                                  | in_range(1900, CURRENT_YEAR)     | Test whether value is within range 1900-{CURRENT_YEAR}   | Error     |
+| End Month                                 | check_month                      | Test whether value is a valid month number (1-12)        | Error     |
+| End Day                                   | check_day                        | Test whether value is a valid day number (1-31)          | Error     |
+| Total Deaths                              | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| No. Injured                               | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| No. Affected                              | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| No. Homeless                              | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Total Affected                            | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Reconstruction Costs ('000 US$)           | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Reconstruction Costs, Adjusted ('000 US$) | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Insured Damage ('000 US$)                 | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Insured Damage, Adjusted ('000 US$)       | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Total Damage ('000 US$)                   | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| Total Damage, Adjusted ('000 US$)         | greater_than(0.)                 | Test whether value is greater than 0                     | Error     |
+| CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-100                 | Warning   |
+| Admin Units                               | is_valid_json                    | Test whether value is a json string                      | Error     |
+| Entry Date                                | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range            | Error     |
+| Last Update                               | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range            | Error     |
 
 [^2]: Comparing Start Year to DisNo. is not considered as a multi-column check
 because DisNo. is the index of the Column Series in `pandera`. Hence, the test
@@ -201,13 +204,30 @@ multi-column checks are list below.
 
 ### Installation
 
-TODO
+> [!IMPORTANT]
+> To write for the final GitHub repository
 
 ```
 pip install
 ```
 
 ### Validate EM-DAT Content
+
+
+First, import `pandas` and the `emdat_schema` defined in `emtest` using
+`pandera`. EM-DAT data can be loaded and parsed into a `pandas.DataFrame`, then
+validated using the `emdat_schema.validate` method.
+
+```python
+import pandas as pd
+from emtest import emdat_schema
+emdat = pd.read_excel(
+        PATH_TO_EMDAT_XLSX_FILE, # Replace with you file
+        index_col='DisNo.',
+        parse_dates=['Entry Date', 'Last Update']
+)
+emdat_schema.validate(emdat)
+```
 
 See the "examples" folder of this repository.
 
@@ -218,18 +238,3 @@ See the "examples" folder of this repository.
 - [EM-DAT Data Download Portal](https://public.emdat.be/)
 - [Pandera Documentation: the Open-source Framework for Precision Data Testing](https://pandera.readthedocs.io/en/stable/index.html)
 
-## References
-
-
-
-```
-@InProceedings{ niels_bantilan-proc-scipy-2020,
-  author    = { {N}iels {B}antilan },
-  title     = { pandera: {S}tatistical {D}ata {V}alidation of {P}andas {D}ataframes },
-  booktitle = { {P}roceedings of the 19th {P}ython in {S}cience {C}onference },
-  pages     = { 116 - 124 },
-  year      = { 2020 },
-  editor    = { {M}eghann {A}garwal and {C}hris {C}alloway and {D}illon {N}iederhut and {D}avid {S}hupe },
-  doi       = { 10.25080/Majora-342d178e-010 }
-}
-```
