@@ -101,8 +101,9 @@ warnings on the 'ISO', 'Country', 'Start Year', and 'CPI' columns.
 
 EM-DAT may contain ISO country codes or country names
 that are not listed in the currently used reference
-(See[EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes))
-. This is somewhat normal given polical changes throughout History, yet,
+(See[EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes)). EM-DAT has a few exceptions for oversea 
+territories and historical countries not included in the current reference. 
+This is somewhat normal given polical changes throughout History, yet,
 EM-TEST allows to explicitly flag which cases are in EM-DAT thanks to the 
 implemented warning. 
 
@@ -182,18 +183,18 @@ The `pandera` package makes it possible to define
 at the Dataframe level, enabling multi-column checks. The currently implemented
 multi-column checks are list below. 
 
-| Columns                                                          | Test Name                         | Test Description                                                                     | Test Type |
-|------------------------------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------|-----------|
-| Latitude, Longitude                                              | check_both_lat_lon_coordinates    | Test whether latitude and longitude coordinates are either both defined or undefined | Error     |
-| Start Month, Start Day                                           | check_no_start_day_if_no_month    | Test whether Start Day is set if Start Month is not                                  | Error     |
-| End Month, End Day                                               | check_no_end_day_if_no_month      | Test whether End Day is set if End Month is not                                      | Error     |
-| Start Year, End Year                                             | check_start_end_year_consistency  | Test whether start year is prior or equal to end year                                | Error     |
-| Start Year, Start Month, End Year, End Month                     | check_start_end_month_consistency | Test whether start year is prior or equal to end year at the month resolution        | Error     |
-| Start Year, Start Month, Start Day, End Year, End Month, End Day | check_start_end_day_consistency   | Test whether start year is prior or equal to end year at the day resolution          | Error     |
-| Disaster Subtype, Magnitude                                      | check_coldwave_magnitude          |                                                                                      |           |
-| Disaster Type, Magnitude                                         | check_earthquake_magnitude        |                                                                                      |           |
-| Disaster Subtype, Magnitude                                      | check_heatwave_magnitude          |                                                                                      |           |
-| Disaster Type, Magnitude                                         | check_other_magnitude             |                                                                                      |           |
+| Columns                                                          | Test Name                         | Test Description                                                                                | Test Type |
+|------------------------------------------------------------------|-----------------------------------|-------------------------------------------------------------------------------------------------|-----------|
+| Latitude, Longitude                                              | check_both_lat_lon_coordinates    | Test whether latitude and longitude coordinates are either both defined or undefined            | Error     |
+| Start Month, Start Day                                           | check_no_start_day_if_no_month    | Test whether Start Day is set if Start Month is not                                             | Error     |
+| End Month, End Day                                               | check_no_end_day_if_no_month      | Test whether End Day is set if End Month is not                                                 | Error     |
+| Start Year, End Year                                             | check_start_end_year_consistency  | Test whether start year is prior or equal to end year                                           | Error     |
+| Start Year, Start Month, End Year, End Month                     | check_start_end_month_consistency | Test whether start year is prior or equal to end year at the month resolution                   | Error     |
+| Start Year, Start Month, Start Day, End Year, End Month, End Day | check_start_end_day_consistency   | Test whether start year is prior or equal to end year at the day resolution                     | Error     |
+| Disaster Subtype, Magnitude                                      | check_coldwave_magnitude          | Test whether coldwave magnitude is in realistic range (<=10°C)                                  | Error     |
+| Disaster Type, Magnitude                                         | check_earthquake_magnitude        | Test whether earthquake magnitude is in realistic range (3 to 10)                               | Error     |
+| Disaster Subtype, Magnitude                                      | check_heatwave_magnitude          | Test whether heatwave magnitude is in realistic range (>=25°C)                                  | Error     |
+| Disaster Type, Magnitude                                         | check_other_magnitude             | Test whether disaster different from earthquake, cold and heat waves have magnitude above zero  | Error     |
 
 
 ## How to Use?
