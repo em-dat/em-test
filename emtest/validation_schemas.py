@@ -6,15 +6,23 @@ constraints.
 #Authors: Damien Delforge, Valentin Wathelet
 #Email: damien.delforge@uclouvain.be
 """
-import warnings
 from datetime import datetime
+from functools import partial
 
 from pandera import Check, Column, DataFrameSchema, Index, Timestamp
 
 from .custom_checks import (
     is_valid_json,
     validate_external_id,
-    validate_iso3_code
+    validate_iso3_code,
+    check_both_lat_lon_coordinates,
+    check_disno_vs_start_year,
+    check_start_end_consistency,
+    check_coldwave_magnitude,
+    check_earthquake_magnitude,
+    check_heatwave_magnitude,
+    check_other_magnitude,
+    check_no_day_if_no_month
 )
 from .validation_data.areas import (
     COUNTRY_LIST,
@@ -30,7 +38,6 @@ from .validation_data.classification import (
     SUBTYPE_LIST
 )
 from .validation_data.magnitude import MAG_UNIT_LIST
-from .utils import update_column_checks
 
 CURRENT_DATE = datetime.now()
 CURRENT_YEAR = datetime.now().year
@@ -45,7 +52,8 @@ emdat_schema = DataFrameSchema(
                 Check.isin(
                     allowed_values=["Yes", "No"],
                     name='check_yes_no',
-                    description="Test whether value is either 'Yes' or 'No'"
+                    description="Test whether value is either 'Yes' or 'No'",
+                    error="Invalid Historic value"
                 )
             ]
         ),
@@ -188,7 +196,8 @@ emdat_schema = DataFrameSchema(
                 Check.isin(
                     ["Yes", "No"],
                     name="check_yes_no",
-                    description="Test whether value is either 'Yes' or 'No'"
+                    description="Test whether value is either 'Yes' or 'No'",
+                    error="Invalid OFDA/BHA Response value"
                 )
             ]
         ),
@@ -199,7 +208,8 @@ emdat_schema = DataFrameSchema(
                 Check.isin(
                     ["Yes", "No"],
                     name="check_yes_no",
-                    description="Test whether value is either 'Yes' or 'No'"
+                    description="Test whether value is either 'Yes' or 'No'",
+                    error="Invalid Appeal value"
                 )
             ]
         ),
@@ -210,7 +220,8 @@ emdat_schema = DataFrameSchema(
                 Check.isin(
                     ["Yes", "No"],
                     name="check_yes_no",
-                    description="Test whether value is either 'Yes' or 'No'"
+                    description="Test whether value is either 'Yes' or 'No'",
+                    error="Invalid Declaration value"
                 )
             ]
         ),
@@ -219,19 +230,14 @@ emdat_schema = DataFrameSchema(
             checks=[
                 Check.greater_than(
                     0.,
-                    description="Test whether value is greater than 0"
+                    description="Test whether value is greater than 0",
+                    error="Invalid AID Contribution value"
                 )
             ],
             nullable=True
         ),
         "Magnitude": Column(
             float,
-            checks=[
-                Check.not_equal_to(
-                    0.,
-                    description="Test whether value differ from 0"
-                )
-            ],
             nullable=True
         ),
         "Magnitude Scale": Column(
@@ -250,8 +256,10 @@ emdat_schema = DataFrameSchema(
             float,
             checks=[
                 Check.in_range(
-                    -90., 90.,
-                    description="Test whether value is within range -90-90.",
+                    -90.,
+                    90.,
+                    description="Test whether value is within range -90-90",
+                    error="Invalid Latitude value"
                 )
             ],
             nullable=True
@@ -259,7 +267,12 @@ emdat_schema = DataFrameSchema(
         "Longitude": Column(
             float,
             checks=[
-                Check.in_range(-180., 180.)
+                Check.in_range(
+                    -180.,
+                    180.,
+                    description="Test whether value is within range -180-180",
+                    error="Invalid Longitude value"
+                )
             ],
             nullable=True
         ),
@@ -271,8 +284,17 @@ emdat_schema = DataFrameSchema(
                     1900,
                     CURRENT_YEAR,
                     description=f"Test whether value is within range "
-                                f"1900-{CURRENT_YEAR}."
+                                f"1900-{CURRENT_YEAR}.",
+                    error="Invalid Start Year value"
+                ),
+                Check(
+                    check_disno_vs_start_year,
+                    description=f"Test that start year is the same as disno "
+                                f"year.",
+                    error="Start year differs from DisNo year",
+                    raise_warning=True
                 )
+
             ]
         ),
         "Start Month": Column(
@@ -283,7 +305,8 @@ emdat_schema = DataFrameSchema(
                     range(1, 13),
                     name="check_month",
                     description="Test whether value is a valid month number "
-                                "(1-12)."
+                                "(1-12).",
+                    error="Invalid Start Month value"
                 )
             ]
         ),
@@ -294,7 +317,8 @@ emdat_schema = DataFrameSchema(
                     range(1, 32),
                     name="check_day",
                     description="Test whether value is a valid day number "
-                                "(1-31)."
+                                "(1-31).",
+                    error="Invalid Start Day value"
                 )
             ],
             nullable=True
@@ -302,7 +326,13 @@ emdat_schema = DataFrameSchema(
         "End Year": Column(
             int,
             checks=[
-                Check.in_range(1900, CURRENT_YEAR)
+                Check.in_range(
+                    1900,
+                    CURRENT_YEAR,
+                    description=f"Test whether value is within range "
+                                f"1900-{CURRENT_YEAR}.",
+                    error="Invalid End Year value"
+                )
             ]
         ),
         "End Month": Column(
@@ -312,7 +342,8 @@ emdat_schema = DataFrameSchema(
                     range(1, 13),
                     name="check_month",
                     description="Test whether value is a valid month number "
-                                "(1-31)."
+                                "(1-31).",
+                    error="Invalid End Month value"
                 )
             ],
             nullable=True
@@ -332,84 +363,136 @@ emdat_schema = DataFrameSchema(
         "Total Deaths": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Total Deaths value"
+                )
             ],
             nullable=True
         ),
         "No. Injured": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid No. Injured value"
+                )
             ],
             nullable=True
         ),
         "No. Affected": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid No. Affected value"
+                )
             ],
             nullable=True
         ),
         "No. Homeless": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid No. Homeless value"
+                )
             ],
             nullable=True
         ),
         "Total Affected": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Total Affected value"
+                )
             ],
             nullable=True
         ),
         "Reconstruction Costs ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Reconstruction Costs value"
+                )
             ],
             nullable=True
         ),
         "Reconstruction Costs, Adjusted ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Reconstruction Costs, Adjusted value"
+                )
             ],
             nullable=True
         ),
         "Insured Damage ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Insured Damage value"
+                )
             ],
             nullable=True
         ),
         "Insured Damage, Adjusted ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Insured Damage, Adjusted value"
+                )
             ],
             nullable=True
         ),
         "Total Damage ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Total Damage value"
+                )
             ],
             nullable=True
         ),
         "Total Damage, Adjusted ('000 US$)": Column(
             float,
             checks=[
-                Check.greater_than(0.)
+                Check.greater_than(
+                    0.,
+                    description="Test whether value is greater than 0",
+                    error="Invalid Total Damage, Adjusted value"
+                )
             ],
             nullable=True
         ),
         "CPI": Column(
             float,
             checks=[
-                Check.in_range(0., 100.)
+                # CPI is rescaled to 100 each year. Above-100 values are
+                # unlikely but possible in case of deflation.
+                Check.in_range(
+                    0.,
+                    110.,
+                    description="Test whether value is within range (1-110)",
+                    error="Invalid CPI value",
+                    raise_warning=True
+                )
             ],
             nullable=True
         ),
@@ -430,16 +513,94 @@ emdat_schema = DataFrameSchema(
         "Entry Date": Column(
             Timestamp,
             checks=[
-                Check.in_range(EMDAT_START_DATE, CURRENT_DATE)
+                Check.in_range(
+                    EMDAT_START_DATE,
+                    CURRENT_DATE,
+                    description=f"Test whether value is within range "
+                                f"1988-present",
+                    error="Invalid Entry Date value",
+                )
             ]
         ),
         "Last Update": Column(
             Timestamp,
             checks=[
-                Check.in_range(EMDAT_START_DATE, CURRENT_DATE)
+                Check.in_range(
+                    EMDAT_START_DATE,
+                    CURRENT_DATE,
+                    description=f"Test whether value is within range "
+                                f"1988-present",
+                    error="Invalid Last Update value",
+                )
             ]
         ),
     },
+    # Define checks at the DataFrameSchema-level
+    # Note: error message should be unique to post-filter reports
+    checks=[
+        Check(
+            check_both_lat_lon_coordinates,
+            description="Test whether latitude and longitude coordinates are "
+                        "either both defined or undefined",
+            error="Missing latitude or longitude coordinates"
+        ),
+        Check(
+            partial(check_no_day_if_no_month, start_or_end='Start'),
+            name="check_no_start_day_if_no_month",
+            description="Test whether Start Day is set if Start Month is not",
+            error="Missing start month value"
+        ),
+        Check(
+            partial(check_no_day_if_no_month, start_or_end='End'),
+            name="check_no_end_day_if_no_month",
+            description="Test whether End Day is set if End Month is not",
+            error="Missing end month value"
+        ),
+        Check(
+            partial(check_start_end_consistency, resolution='year'),
+            name="check_start_end_year_consistency",
+            description="Test whether start year is prior or equal to end year",
+            error="Start date inconsistency at the year resolution"
+        ),
+        Check(
+            partial(check_start_end_consistency, resolution='month'),
+            description="Test whether start date is prior or equal to end date "
+                        "at the month resolution",
+            error="Start date inconsistency at the month resolution"
+        ),
+        Check(
+            partial(check_start_end_consistency, resolution='day'),
+            description="Test whether start date is prior or equal to end date "
+                        "at the day resolution",
+            error="Start date inconsistency at the day resolution"
+        ),
+        Check(
+            check_coldwave_magnitude,
+            description="Test whether coldwave magnitude is in realistic "
+                        "range (<= 10°C)",
+            error="Invalid coldwave magnitude"
+        ),
+        Check(
+            check_earthquake_magnitude,
+            description="Test whether earthquake magnitude is in realistic "
+                        "range (3 to 10)",
+            error="Invalid earthquake magnitude"
+        ),
+        Check(
+            check_heatwave_magnitude,
+            description="Test whether heatwave magnitude is in realistic "
+                        "range (>= 25°C)",
+            error="Invalid heatwave magnitude"
+        ),
+        Check(
+            check_other_magnitude,
+            description="Test whether disaster different from earthquake, cold "
+                        " and heat waves have magnitude above zero",
+            error="Invalid magnitude"
+        ),
+
+    ],
+    # Check the index
     index=Index(
         str,
         name="DisNo.",
@@ -456,24 +617,5 @@ emdat_schema = DataFrameSchema(
     ),
     coerce=True,
     ordered=True,
-    strict=True
-)
-
-# Type-specific schema
-# --------------------
-
-# Earthquake Magnitude Check
-
-earthquake_schema = update_column_checks(
-    schema=emdat_schema,
-    col_name='Magnitude',
-    new_checks=[
-        Check.in_range(
-            min_value=3,
-            max_value=10,
-            description="Test whether value is between 3 and 10",
-            name="check_earthquake_magnitude",
-            error="Invalid earthquake magnitude"
-        )
-    ]
+    strict=True,
 )
