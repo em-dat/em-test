@@ -74,9 +74,9 @@ def load_GAUL_code(level: Literal[1, 2]) -> list:
     elif level == 2:
         file = GAUL_ADM2_FILE
     with open(file, 'r', encoding='utf-8') as file:
-        lines = [line.strip() for line in file]
+        code_list = [int(line.strip()) for line in file]
 
-    return lines
+    return code_list
 
 
 def load_UNSD_areas(file: Path = AREAS_FILE):

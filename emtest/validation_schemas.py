@@ -13,6 +13,7 @@ from pandera import Check, Column, DataFrameSchema, Index, Timestamp
 
 from .custom_checks import (
     is_valid_json,
+    has_valid_GAUL_codes,
     validate_external_id,
     validate_iso3_code,
     check_both_lat_lon_coordinates,
@@ -502,9 +503,14 @@ emdat_schema = DataFrameSchema(
                 # See custom_checks.py
                 Check(
                     is_valid_json,
-                    name="is_valid_json",
-                    description="Test whether value is a json string.",
+                    description="Test whether value is a json string",
                     error="Invalid JSON string",
+                    element_wise=True
+                ),
+                Check(
+                    has_valid_GAUL_codes,
+                    description="Test whether value contains valid GAUL codes",
+                    error="Invalid GAUL codes",
                     element_wise=True
                 )
             ],

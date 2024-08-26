@@ -8,6 +8,8 @@ from typing import Any, Literal
 import pandas as pd
 from pandera.typing import Series
 
+from .validation_data.areas import ADM1_GAUL_LIST, ADM2_GAUL_LIST
+
 
 # Single Checks
 # -------------
@@ -77,18 +79,28 @@ def is_valid_json(json_data: Any) -> bool:
         return False
 
 
+def has_valid_GAUL_codes(json_data: Any) -> bool:
+    """Check if GAUL codes are valid."""
+    if isinstance(json_data, float) and pd.isna(json_data):
+        return False
+    elif not isinstance(json_data, (str, bytes, bytearray)):
+        return False
+    try:
+        admin_units = json.loads(json_data)
+        code_list: list[tuple[int, int]] = [_extract_GAUL_code(d) for d in
+                                            admin_units]
+        all_code_valid = all(
+            [_is_valid_GAUL_code(code, level) for level, code in code_list]
+        )
+        return all_code_valid
+    except json.JSONDecodeError:
+        return False
+
+
 def validate_iso3_code(iso3_country_code: Series[str]) -> Series[bool]:
     """Validate ISO3 code using regular expression.
     """
     return iso3_country_code.str.match(r'^[A-Z]{3}$')
-
-
-def validate_earthquake_magnitude(data: pd.DataFrame) -> bool:
-    earthquake_data = data[data['Disaster Type'] == 'Earthquake']
-    # Check if all Magnitude values for Earthquakes are within specified range
-    if not earthquake_data['Magnitude'].between(3, 10).all():
-        return False
-    return True
 
 
 # Wide Checks
@@ -180,3 +192,19 @@ def _convert_to_date(
         )
     elif resolution == 'year':
         return pd.to_datetime(df[f'{start_or_end} Year'], format='%Y')
+
+
+def _extract_GAUL_code(d: dict) -> tuple[int, int]:
+    """Extract GAUL code from dictionary."""
+    level: int = int(list(d.keys())[0][3])
+    code_key: str = f"adm{level}_code"
+    code_value: int = int(d[code_key])
+    return level, code_value
+
+
+def _is_valid_GAUL_code(code: int, level=Literal[1, 2]) -> bool:
+    """Check if code is a valid GAUL code."""
+    if level == 1:
+        return code in ADM1_GAUL_LIST
+    elif level == 2:
+        return code in ADM2_GAUL_LIST
