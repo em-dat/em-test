@@ -136,9 +136,8 @@ def check_heatwave_magnitude(df: pd.DataFrame) -> Series[bool]:
 
 def check_other_magnitude(df: pd.DataFrame) -> Series[bool]:
     """Check that heat wave is in realistic range"""
-    is_other = (~(df['Classification Key'].startswith('nat-geo-ear')) &
-                ~(df['Classification Key'].startswith('nat-met-ext')))
-
+    is_other = ~((df['Classification Key'].str.startswith('nat-geo-ear')) |
+                (df['Classification Key'].str.startswith('nat-met-ext')))
     return ~is_other | df['Magnitude'] > 0
 
 
@@ -161,7 +160,7 @@ def check_start_end_consistency(
     """Check start and end dates correct chronology"""
     date_start = _convert_to_date(df, 'Start', resolution)
     date_end = _convert_to_date(df, 'End', resolution)
-    return date_start <= date_end
+    return (date_start <= date_end) | pd.isna(date_start) | pd.isna(date_end)
 
 
 def _convert_to_date(
