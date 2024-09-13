@@ -204,12 +204,34 @@ multi-column checks are list below.
 
 ### Installation
 
-> [!IMPORTANT]
-> To write for the final GitHub repository
+1. Download the project or clone the repository to your local machine using Git
 
+```bash
+git clone https://github.com/em-dat/EM-TEST.git
 ```
-pip install
+
+2. Navigate to the project's directory
+3. Create a Python virtual environment
+
+On macOS and Linux:
+```bash
+python3 -m venv env       # Create virtual environment
+source env/bin/activate   # Activate virtual environment
 ```
+
+On Windows:
+```bash
+py -m venv env            # Create virtual environment
+.\env\Scripts\activate    # Activate virtual environment
+```
+4. Install the project and its dependencies
+
+```bash
+pip install -r requirements.txt    # Install the dependencies
+python setup.py install            # Install the project
+```
+
+Check out the subsequent sections to understand how to use the project.
 
 ### Validate EM-DAT Content
 
