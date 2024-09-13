@@ -1,15 +1,19 @@
-"""Example Validation Script
+"""
+Example Validation Script
+
+This script loads an EM-DAT dataset and validates it using the EM-TEST schema.
+If any validation errors or warnings occur, the results are exported to a CSV
+file.
 
 Author: Damien Delforge
 Email: damien.delforge@uclouvain.be
 Date: 24-08-22
 License: MIT
-
 """
+
 import pandas as pd
 
-
-EMDAT_PATH: str = 'data/fake_emdat_test.xlsx' #
+EMDAT_PATH: str = 'data/fake_emdat_test.xlsx'
 CSV_OUTPUT_NAME: str = 'emdat_test_failure.csv'
 
 
@@ -23,7 +27,6 @@ def load_emdat(emdat_path: str = EMDAT_PATH) -> pd.DataFrame:
 
 
 def main() -> None:
-
     from emtest import (
         emdat_schema
     )
