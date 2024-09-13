@@ -1,7 +1,7 @@
 # EM-TEST
 
-EM-TEST is a testing framework for the [EM-DAT](www.emdat.be) public data
-relying on the [`pandas`](https://pandas.pydata.org/) and 
+EM-TEST is a testing framework for the [EM-DAT](https://www.emdat.be/) public 
+data relying on the [`pandas`](https://pandas.pydata.org/) and 
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
 
 > [!IMPORTANT]
@@ -265,7 +265,7 @@ See the "examples" folder of this repository.
 
 ## Useful Links
 
-- [EM-DAT Project Website](www.emdat.be)
+- [EM-DAT Project Website](https://www.emdat.be/)
 - [EM-DAT Project Documentation](https://doc.emdat.be)
 - [EM-DAT Data Download Portal](https://public.emdat.be/)
 - [Pandera Documentation: the Open-source Framework for Precision Data Testing](https://pandera.readthedocs.io/en/stable/index.html)
