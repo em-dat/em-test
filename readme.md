@@ -202,6 +202,16 @@ multi-column checks are list below.
 
 ## How to Use?
 
+### Prerequisites
+
+EM-TEST was developed using Python 3.11 with the following dependencies:
+
+```
+openpyxl~=3.1
+pandas~=2.2
+pandera~=0.20
+```
+
 ### Installation
 
 1. Download the project or clone the repository to your local machine using Git
