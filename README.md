@@ -104,7 +104,7 @@ warnings on the 'ISO', 'Country', 'Start Year', and 'CPI' columns.
 
 EM-DAT may contain ISO country codes or country names
 that are not listed in the currently used reference
-(See[EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes)). EM-DAT has a few exceptions for oversea 
+(See [EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes)). EM-DAT has a few exceptions for oversea 
 territories and historical countries not included in the current reference. 
 This is somewhat normal given polical changes throughout History, yet,
 EM-TEST allows to explicitly flag which cases are in EM-DAT thanks to the 
@@ -118,7 +118,7 @@ onset disasters like droughts. For this reason, the test is implemented as a
 warning that will retrieve these cases, as well as potential errors in the
 year definition. 
 
-Finally, we test the 'CPI' value to be in the range 0-100. Technically,
+Finally, we test the 'CPI' value to be in the range 0-110. Technically,
 CPI should only be greater than 0. EM-DAT rescales de CPI values such that the
 last-year CPI is set to 100, which makes it very unlikely to have values above
 100, because it would refer to a year of deflation 

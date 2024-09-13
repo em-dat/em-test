@@ -1,4 +1,4 @@
-__version__ = '2024.07.02'
+__version__ = '2024.09.13'
 __author__ = 'Damien Delforge'
 
 from emtest.validation_schemas import (
