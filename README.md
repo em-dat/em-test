@@ -33,6 +33,72 @@ So, why use EM-TEST? Here are five reasons:
    archive of EM-DAT? You can download EM-TEST and quickly customize the
    validation scheme to fit your own needs.
 
+## How to Use?
+
+### Prerequisites
+
+EM-TEST was developed using Python 3.11 with the following dependencies:
+
+```
+openpyxl~=3.1
+pandas~=2.2
+pandera~=0.20
+```
+
+### Installation
+
+1. Download the project or clone the repository to your local machine using Git
+
+```bash
+git clone https://github.com/em-dat/EM-TEST.git
+```
+
+2. Navigate to the project's directory
+3. Create a Python virtual environment
+
+On macOS and Linux:
+
+```bash
+python3 -m venv env       # Create virtual environment
+source env/bin/activate   # Activate virtual environment
+```
+
+On Windows:
+
+```bash
+py -m venv env            # Create virtual environment
+.\env\Scripts\activate    # Activate virtual environment
+```
+
+4. Install the project and its dependencies
+
+```bash
+pip install -r requirements.txt    # Install the dependencies
+python setup.py install            # Install the project
+```
+
+Check out the subsequent sections to understand how to use the project.
+
+### Validate EM-DAT Content
+
+First, import `pandas` and the `emdat_schema` defined in `emtest` using
+`pandera`. EM-DAT data can be loaded and parsed into a `pandas.DataFrame`, then
+validated using the `emdat_schema.validate` method.
+
+```python
+import pandas as pd
+from emtest import emdat_schema
+
+emdat = pd.read_excel(
+    PATH_TO_EMDAT_XLSX_FILE,  # Replace with your file
+    index_col='DisNo.',
+    parse_dates=['Entry Date', 'Last Update']
+)
+emdat_schema.validate(emdat)
+```
+
+See the "examples" folder of this repository.
+
 ## EM-DAT Validation Schema
 
 ### Data Type Validation
@@ -175,7 +241,7 @@ See [EM-DAT Documentation](https://doc.emdat.be/docs/protocols/economic-adjustme
 | Insured Damage, Adjusted ('000 US$)       | greater_than(0.)                 | Test whether value is greater than 0                   | Error     |
 | Total Damage ('000 US$)                   | greater_than(0.)                 | Test whether value is greater than 0                   | Error     |
 | Total Damage, Adjusted ('000 US$)         | greater_than(0.)                 | Test whether value is greater than 0                   | Error     |
-| CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-100               | Warning   |
+| CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-110.              | Warning   |
 | Admin Units                               | is_valid_json                    | Test whether value is a json string                    | Error     |
 | Entry Date                                | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
 | Last Update                               | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
@@ -204,71 +270,32 @@ multi-column checks are listed below.
 | Disaster Subtype, Magnitude                                      | check_heatwave_magnitude          | Test whether heatwave magnitude is in realistic range (>=25°C)                                 | Error     |
 | Disaster Type, Magnitude                                         | check_other_magnitude             | Test whether disaster different from earthquake, cold and heat waves have magnitude above zero | Error     |
 
-## How to Use?
+## How to Contribute?
 
-### Prerequisites
+If you notice an anomaly in the EM-DAT public data that could be prevented using
+the EM-TEST framework, we encourage you to submit an issue, using the [GitHub
+issue tracker](https://github.com/em-dat/em-test/issues). We will consider
+the addition of new tests to update the framework.
 
-EM-TEST was developed using Python 3.11 with the following dependencies:
+## How to Cite?
 
+If you use EM-TEST in your research and activities, you may use the
+recommended citations below.
+
+```bibtex
+@software{delforge_emtest_2024,
+    author = {Delforge, Damien and Wathelet, Valentin},
+    title = {{EM-TEST}: A Testing Framework for {EM-DAT} Public Data},
+    year = {2024},
+    doi = xxxx # waiting for release
+    url = {https://doi.org/10.5281/zenodo.xxxxxxx}, # waiting for release
+    version = {1.0.0rc}
+}
 ```
-openpyxl~=3.1
-pandas~=2.2
-pandera~=0.20
-```
+Or
 
-### Installation
-
-1. Download the project or clone the repository to your local machine using Git
-
-```bash
-git clone https://github.com/em-dat/EM-TEST.git
-```
-
-2. Navigate to the project's directory
-3. Create a Python virtual environment
-
-On macOS and Linux:
-
-```bash
-python3 -m venv env       # Create virtual environment
-source env/bin/activate   # Activate virtual environment
-```
-
-On Windows:
-
-```bash
-py -m venv env            # Create virtual environment
-.\env\Scripts\activate    # Activate virtual environment
-```
-
-4. Install the project and its dependencies
-
-```bash
-pip install -r requirements.txt    # Install the dependencies
-python setup.py install            # Install the project
-```
-
-Check out the subsequent sections to understand how to use the project.
-
-### Validate EM-DAT Content
-
-First, import `pandas` and the `emdat_schema` defined in `emtest` using
-`pandera`. EM-DAT data can be loaded and parsed into a `pandas.DataFrame`, then
-validated using the `emdat_schema.validate` method.
-
-```python
-import pandas as pd
-from emtest import emdat_schema
-
-emdat = pd.read_excel(
-    PATH_TO_EMDAT_XLSX_FILE,  # Replace with your file
-    index_col='DisNo.',
-    parse_dates=['Entry Date', 'Last Update']
-)
-emdat_schema.validate(emdat)
-```
-
-See the "examples" folder of this repository.
+>Delforge, D., & Wathelet, V. (2024). EM-TEST: A Testing Framework for EM-DAT
+Public Data (Version 1.0.0rc) [Software].
 
 ## Useful Links
 
