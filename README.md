@@ -285,7 +285,7 @@ recommended citations below.
 ```bibtex
 @software{delforge_emtest_2024,
     author = {Delforge, Damien and Wathelet, Valentin},
-    title = {{EM-TEST}: A Testing Framework for the {EM-DAT} Public Data},
+    title = {{EM-TEST}: A Testing Framework for the {EM-DAT} Data},
     year = {2024},
     doi = xxxx # waiting for release
     url = {https://doi.org/10.5281/zenodo.xxxxxxx}, # waiting for release
