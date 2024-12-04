@@ -1,5 +1,7 @@
 # EM-TEST
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14275790.svg)](https://doi.org/10.5281/zenodo.14275790)
+
 EM-TEST is a testing framework for [EM-DAT](https://www.emdat.be/) public
 data, built on the [`pandas`](https://pandas.pydata.org/) and
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
@@ -280,22 +282,25 @@ the addition of new tests to update the framework.
 ## How to Cite?
 
 If you use EM-TEST in your research and activities, you may use the
-recommended citations below.
+citation below or the citation metadata file `CITATION.cff`.
 
 ```bibtex
-@software{delforge_emtest_2024,
-    author = {Delforge, Damien and Wathelet, Valentin},
-    title = {{EM-TEST}: A Testing Framework for the {EM-DAT} Data},
-    year = {2024},
-    doi = xxxx # waiting for release
-    url = {https://doi.org/10.5281/zenodo.xxxxxxx}, # waiting for release
-    version = {1.0.0rc}
+@software{delforge_2024_14275790,
+  author       = {Delforge, Damien and
+                  Wathelet, Valentin},
+  title        = {EM-TEST: A Testing Framework for the EM-DAT Data},
+  month        = dec,
+  year         = 2024,
+  publisher    = {Zenodo},
+  version      = {2024.12.0},
+  doi          = {10.5281/zenodo.14275790},
+  url          = {https://doi.org/10.5281/zenodo.14275790}
 }
 ```
 Or
 
->Delforge, D., & Wathelet, V. (2024). EM-TEST: A Testing Framework for EM-DAT
-Public Data (Version 1.0.0rc) [Software].
+>Delforge, D., & Wathelet, V. (2024). EM-TEST: A Testing Framework for the 
+> EM-DAT Data (2024.12.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
 
 ## Useful Links
 
