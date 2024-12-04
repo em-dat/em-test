@@ -199,7 +199,7 @@ multi-column checks are listed below.
 | Start Year, End Year                                             | check_start_end_year_consistency  | Test whether start year is prior or equal to end year                                          | Error     |
 | Start Year, Start Month, End Year, End Month                     | check_start_end_month_consistency | Test whether start year is prior or equal to end year at the month resolution                  | Error     |
 | Start Year, Start Month, Start Day, End Year, End Month, End Day | check_start_end_day_consistency   | Test whether start year is prior or equal to end year at the day resolution                    | Error     |
-| Disaster Subtype, Magnitude                                      | check_coldwave_magnitude          | Test whether coldwave magnitude is in realistic range (<=10°C)                                 | Error     |
+| Disaster Subtype, Magnitude                                      | check_coldwave_magnitude          | Test whether cold wave magnitude is in realistic range (<=10°C)                                | Error     |
 | Disaster Type, Magnitude                                         | check_earthquake_magnitude        | Test whether earthquake magnitude is in realistic range (3 to 10)                              | Error     |
 | Disaster Subtype, Magnitude                                      | check_heatwave_magnitude          | Test whether heatwave magnitude is in realistic range (>=25°C)                                 | Error     |
 | Disaster Type, Magnitude                                         | check_other_magnitude             | Test whether disaster different from earthquake, cold and heat waves have magnitude above zero | Error     |
