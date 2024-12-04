@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: 'EM-TEST: A Testing Framework for the EM-DAT Data'
+message: 'If you use this software, please cite it as below.'
+type: software
+authors:
+  - family-names: Delforge
+    given-names: Damien
+    orcid: 'https://orcid.org/0000-0002-3552-9444'
+  - family-names: Wathelet
+    given-names: Valentin
+repository-code: 'https://github.com/em-dat/em-test'
+url: 'https://www.emdat.be/'
+abstract: >-
+  EM-TEST is a testing framework for the EM-DAT data,
+  built on the top of pandas and pandera Python packages.
+keywords:
+  - emdat
+  - data-validation
+  - testing-framework
+  - python
+license: MIT
+version: 2024.12.0
+date-released: '2024-12-04'
+
