@@ -4,16 +4,16 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='EM-TEST',
-    version='2024.09.13',
+    name='emtest',
+    version='2024.12.0',
     description='Data validation for EM-DAT datasets.',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/em-dat/EM-TEST',
-    author='Damien Delforge',
+    url='https://github.com/em-dat/em-test',
+    author='Damien Delforge, Valentin Wathelet',
     author_email='damien.delforge@uclouvain.be',
     classifiers=[  # Optional, refer to: https://pypi.org/classifiers/
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.11',
