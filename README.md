@@ -39,12 +39,13 @@ So, why use EM-TEST? Here are five reasons:
 
 ### Prerequisites
 
-EM-TEST was developed using Python 3.11 with the following dependencies:
+EM-TEST was developed using **Python 3.11** with the following dependencies:
 
 ```
 openpyxl~=3.1
 pandas~=2.2
 pandera~=0.20
+toml~=0.10
 ```
 
 ### Installation
@@ -56,7 +57,7 @@ git clone https://github.com/em-dat/EM-TEST.git
 ```
 
 2. Navigate to the project's directory
-3. Create a Python virtual environment
+3. Create a Python virtual environment (or alternatives)
 
 On macOS and Linux:
 
