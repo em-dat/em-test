@@ -68,7 +68,7 @@ source env/bin/activate   # Activate virtual environment
 On Windows:
 
 ```bash
-py -m venv env            # Create virtual environment
+python -m venv env            # Create virtual environment
 .\env\Scripts\activate    # Activate virtual environment
 ```
 
