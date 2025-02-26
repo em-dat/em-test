@@ -26,6 +26,7 @@ setup(
         'openpyxl~=3.1',
         'pandas~=2.2',
         'pandera~=0.20',
+        'toml~=0.10',
     ],
     package_data={
         'emtest': [
