@@ -20,10 +20,19 @@ setup(
     ],
     keywords='EM-DAT, data validation, disaster database',
     packages=find_packages(exclude=['tests', 'examples']),
+    include_package_data=True,
     python_requires='>=3.11, <4',
     install_requires=[
         'openpyxl~=3.1',
         'pandas~=2.2',
         'pandera~=0.20',
     ],
+    package_data={
+        'emtest': [
+            'validation_data/*.csv',
+            'validation_data/*.toml',
+            'validation_data/*.txt',
+            'validation_data/*.py'
+        ],
+    },
 )
