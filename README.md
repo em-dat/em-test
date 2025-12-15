@@ -14,7 +14,7 @@ data, built on the [`pandas`](https://pandas.pydata.org/) and
 ## Why using EM-TEST?
 
 The EM-DAT database is a long-lasting project that has started in 1988. In the
-past, data was encoded manually sometimes using free text fields without
+past, data was encoded manually, sometimes using free text fields without
 constraints. The EM-TEST framework was initially developed to identify issues
 in the data, prior to the redesign of the database. EM-TEST is to some extent
 redundant with many existing constraints in the EM-DAT database.
@@ -39,7 +39,10 @@ So, why use EM-TEST? Here are five reasons:
 
 ### Prerequisites
 
-EM-TEST was developed using **Python 3.11** with the following dependencies:
+EM-TEST targets **Python 3.11+** and is known to work on Python 3.11–3.13. The
+maintainer currently uses Python 3.13 with `uv`.
+
+Dependencies:
 
 ```
 openpyxl~=3.1
@@ -57,28 +60,75 @@ git clone https://github.com/em-dat/EM-TEST.git
 ```
 
 2. Navigate to the project's directory
-3. Create a Python virtual environment (or alternatives)
+3. Create and activate a virtual environment (choose one)
 
-On macOS and Linux:
+- Using uv (recommended):
 
-```bash
-python3 -m venv env       # Create virtual environment
-source env/bin/activate   # Activate virtual environment
-```
+  If you already have a uv environment, just activate it.
 
-On Windows:
+  macOS/Linux:
 
-```bash
-python -m venv env            # Create virtual environment
-.\env\Scripts\activate    # Activate virtual environment
-```
+  ```bash
+  source .venv/bin/activate
+  ```
+
+  Windows (PowerShell):
+
+  ```powershell
+  .\.venv\Scripts\Activate
+  ```
+
+  To create one (if needed):
+
+  macOS/Linux:
+
+  ```bash
+  uv venv --python 3.13 .venv
+  source .venv/bin/activate
+  ```
+
+  Windows (PowerShell):
+
+  ```powershell
+  uv venv --python 3.13 .venv
+  .\.venv\Scripts\Activate
+  ```
+
+- Alternatively, using the standard venv module:
+
+  macOS/Linux:
+
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
+
+  Windows (PowerShell):
+
+  ```powershell
+  python -m venv .venv
+  .\.venv\Scripts\Activate
+  ```
 
 4. Install the project and its dependencies
 
-```bash
-pip install -r requirements.txt    # Install the dependencies
-python setup.py install            # Install the project
-```
+- Using uv (recommended):
+
+  ```bash
+  uv sync
+  ```
+
+- Using pip:
+
+  ```bash
+  python -m pip install -e .
+  ```
+
+Notes:
+
+- `uv sync` uses `pyproject.toml` and the committed `uv.lock` to create a fully
+  reproducible environment and install the project for development.
+- If you don’t have uv installed, see https://docs.astral.sh/uv/.
 
 Check out the subsequent sections to understand how to use the project.
 
@@ -179,16 +229,16 @@ that are not listed in the currently used reference
 See [EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes)).
 EM-DAT has a few exceptions for oversea
 territories and historical countries not included in the current reference.
-This is somewhat normal given polical changes throughout History, yet,
-EM-TEST allows to explicitly flag which cases are in EM-DAT thanks to the
+This is somewhat normal given political changes throughout History, yet,
+EM-TEST allows explicitly flaging which cases are in EM-DAT thanks to the
 implemented warning.
 
 Regarding the warning comparing the Start Year to the year included in the
-DisNo., `check_disno_vs_start_year `, both year should be identical. However,
+DisNo., `check_disno_vs_start_year `, both years should be identical. However,
 it may happen that in the final reference used to describe the disaster event,
-the official start date has been updated. Such a change is more likely for slow
-onset disasters like droughts. For this reason, the test is implemented as a
-warning that will retrieve these cases, as well as potential errors in the
+the official start date has been updated. Such a change is more likely for 
+slow-onset disasters like droughts. For this reason, the test is implemented as 
+a warning that will retrieve these cases, as well as potential errors in the
 year definition.
 
 Finally, we test the 'CPI' value to be in the range 0-110. Technically,
@@ -276,7 +326,7 @@ multi-column checks are listed below.
 ## How to Contribute?
 
 If you notice an anomaly in the EM-DAT public data that could be prevented using
-the EM-TEST framework, we encourage you to submit an issue, using the [GitHub
+the EM-TEST framework, we encourage you to submit an issue using the [GitHub
 issue tracker](https://github.com/em-dat/em-test/issues). We will consider
 the addition of new tests to update the framework.
 
