@@ -1,0 +1,50 @@
+[build-system]
+requires = [
+  "setuptools>=68",
+  "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emtest"
+version = "2024.12.0"
+description = "Data validation for EM-DAT datasets."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.11,<4"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Damien Delforge", email = "damien.delforge@uclouvain.be" },
+  { name = "Valentin Wathelet" }
+]
+keywords = ["EM-DAT", "data validation", "disaster database"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "pandera>=0.27,<0.28",
+  "pandas>=2.3,<2.4",
+  "numpy>=2.3,<2.4",
+  "openpyxl>=3.1,<3.2",
+  "toml>=0.10,<0.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/em-dat/em-test"
+Repository = "https://github.com/em-dat/em-test"
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "examples"]
+
+[tool.setuptools.package-data]
+emtest = [
+  "validation_data/*.csv",
+  "validation_data/*.toml",
+  "validation_data/*.txt",
+]
