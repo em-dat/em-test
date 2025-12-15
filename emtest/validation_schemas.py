@@ -9,7 +9,8 @@ constraints.
 from datetime import datetime
 from functools import partial
 
-from pandera import Check, Column, DataFrameSchema, Index, Timestamp
+from pandera.pandas import Check, Column, DataFrameSchema, Index, Timestamp
+from pandera.typing import Series
 
 from .custom_checks import (
     is_valid_json,
@@ -17,13 +18,17 @@ from .custom_checks import (
     validate_external_id,
     validate_iso3_code,
     check_both_lat_lon_coordinates,
+    check_disno,
     check_disno_vs_start_year,
     check_start_end_consistency,
     check_coldwave_magnitude,
     check_earthquake_magnitude,
     check_heatwave_magnitude,
     check_other_magnitude,
-    check_no_day_if_no_month
+    check_no_day_if_no_month, check_subregion, check_country, check_yes_no,
+    check_classification_key, check_group, check_subgroup, check_type,
+    check_subtype, check_iso3_code, check_magnitude_unit, check_region,
+    check_day, check_month
 )
 from .validation_data.areas import (
     COUNTRY_LIST,
@@ -50,8 +55,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should be either "Yes" or "No"
-                Check.isin(
-                    allowed_values=["Yes", "No"],
+                Check(
+                    check_yes_no,
                     name='check_yes_no',
                     description="Test whether value is either 'Yes' or 'No'",
                     error="Invalid Historic value"
@@ -62,8 +67,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to KEY_LIST
-                Check.isin(
-                    KEY_LIST,
+                Check(
+                    check_classification_key,
                     name='check_classification_key',
                     description="Test whether value is in the reference list",
                     error="Invalid classification key"
@@ -74,8 +79,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to GROUP_LIST
-                Check.isin(
-                    GROUP_LIST,
+                Check(
+                    check_group,
                     name='check_goup',
                     description="Test whether value is in the reference list",
                     error="Invalid group name"
@@ -86,8 +91,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to SUBGROUP_LIST
-                Check.isin(
-                    SUBGROUP_LIST,
+                Check(
+                    check_subgroup,
                     name='check_subgroup',
                     description="Test whether value is in the reference list",
                     error="Invalid subgroup name"
@@ -98,8 +103,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to TYPE_LIST
-                Check.isin(
-                    TYPE_LIST,
+                Check(
+                    check_type,
                     name='check_type',
                     description="Test whether value is in the reference list",
                     error="Invalid type name"
@@ -110,8 +115,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to SUBTYPE_LIST
-                Check.isin(
-                    SUBTYPE_LIST,
+                Check(
+                    check_subtype,
                     name='check_subtype',
                     description="Test whether value is in the reference list",
                     error="Invalid subtype name"
@@ -141,8 +146,8 @@ emdat_schema = DataFrameSchema(
                     error="Invalid ISO3 code",
                     description="Validate values using regular expressions"
                 ),
-                Check.isin(
-                    ISO3_LIST,
+                Check(
+                    check_iso3_code,
                     raise_warning=True,
                     name="check_iso3_code",
                     description="Test whether value is in the reference list",
@@ -154,8 +159,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to COUNTRY_LIST
-                Check.isin(
-                    COUNTRY_LIST,
+                Check(
+                    check_country,
                     raise_warning=True,
                     name="check_country",
                     description="Test whether value is in the reference list",
@@ -167,8 +172,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to SUBREGION_LIST
-                Check.isin(
-                    SUBREGION_LIST,
+                Check(
+                    check_subregion,
                     name="check_subregion",
                     description="Test whether value is in the reference list",
                     error="Subregions not in reference list"
@@ -179,8 +184,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should belong to REGION_LIST
-                Check.isin(
-                    REGION_LIST,
+                Check(
+                    check_region,
                     name="check_region",
                     description="Test whether value is in the reference list",
                     error="Regions not in reference list"
@@ -194,8 +199,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should be either "Yes" or "No"
-                Check.isin(
-                    ["Yes", "No"],
+                Check(
+                    check_yes_no,
                     name="check_yes_no",
                     description="Test whether value is either 'Yes' or 'No'",
                     error="Invalid OFDA/BHA Response value"
@@ -206,8 +211,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should be either "Yes" or "No"
-                Check.isin(
-                    ["Yes", "No"],
+                Check(
+                    check_yes_no,
                     name="check_yes_no",
                     description="Test whether value is either 'Yes' or 'No'",
                     error="Invalid Appeal value"
@@ -218,8 +223,8 @@ emdat_schema = DataFrameSchema(
             str,
             checks=[
                 # Should be either "Yes" or "No"
-                Check.isin(
-                    ["Yes", "No"],
+                Check(
+                    check_yes_no,
                     name="check_yes_no",
                     description="Test whether value is either 'Yes' or 'No'",
                     error="Invalid Declaration value"
@@ -244,8 +249,8 @@ emdat_schema = DataFrameSchema(
         "Magnitude Scale": Column(
             str,
             checks=[
-                Check.isin(
-                    MAG_UNIT_LIST,
+                Check(
+                    check_magnitude_unit,
                     name="check_magnitude_unit",
                     description="Test whether value is in the reference list",
                     error="Magnitude unit not in reference list"
@@ -302,8 +307,8 @@ emdat_schema = DataFrameSchema(
             float,  # int is not a nullable type
             nullable=True,
             checks=[
-                Check.isin(
-                    range(1, 13),
+                Check(
+                    check_month,
                     name="check_month",
                     description="Test whether value is a valid month number "
                                 "(1-12).",
@@ -314,8 +319,8 @@ emdat_schema = DataFrameSchema(
         "Start Day": Column(
             float,  # int is not a nullable type
             checks=[
-                Check.isin(
-                    range(1, 32),
+                Check(
+                    check_day,
                     name="check_day",
                     description="Test whether value is a valid day number "
                                 "(1-31).",
@@ -339,8 +344,8 @@ emdat_schema = DataFrameSchema(
         "End Month": Column(
             float,  # int is not a nullable type
             checks=[
-                Check.isin(
-                    range(1, 13),
+                Check(
+                    check_month,
                     name="check_month",
                     description="Test whether value is a valid month number "
                                 "(1-31).",
@@ -352,8 +357,8 @@ emdat_schema = DataFrameSchema(
         "End Day": Column(
             float,  # int is not a nullable type
             checks=[
-                Check.isin(
-                    range(1, 32),
+                Check(
+                    check_day,
                     name="check_day",
                     description="Test whether value is a valid day number "
                                 "(1-31)."
@@ -611,15 +616,14 @@ emdat_schema = DataFrameSchema(
         str,
         name="DisNo.",
         checks=[
-            # Check DisNo. pattern, e.g., "2004-0659-USA"
-            Check.str_matches(
-                r"^\d{4}-\d{4}-[A-Z]{3}$",
+            Check(
+                check_disno,
                 name="check_disno",
                 description="Validate value using regular expression.",
                 error="Invalid DisNo. Pattern"
             )
         ],
-        unique=True
+        unique=True,
     ),
     coerce=True,
     ordered=True,
