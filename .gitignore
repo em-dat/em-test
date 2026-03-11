@@ -35,3 +35,11 @@ Desktop.ini
 # Logs and temporary files
 *.log
 *.tmp
+
+AI agents
+.junie/memory
+
+# EM-DAT files for testing
+data/260311_emdat_new.xlsx
+test_emdat.py
+
