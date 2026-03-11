@@ -175,6 +175,7 @@ schema.
 | Total Damage, Adjusted ('000 US$)         | float     | True     | False  |
 | CPI                                       | float     | True     | False  |
 | Admin Units                               | str       | True     | False  |
+| GADM Admin Units                          | str       | True     | False  |
 | Entry Date                                | Timestamp | False    | False  |
 | Last Update                               | Timestamp | False    | False  |
 
@@ -266,6 +267,7 @@ See [EM-DAT Documentation](https://doc.emdat.be/docs/protocols/economic-adjustme
 | Total Damage, Adjusted ('000 US$)         | greater_than(0.)                 | Test whether value is greater than 0                   | Error     |
 | CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-110.              | Warning   |
 | Admin Units                               | is_valid_json                    | Test whether value is a json string                    | Error     |
+| GADM Admin Units                          | is_valid_json                    | Test whether value is a json string                    | Error     |
 | Entry Date                                | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
 | Last Update                               | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
 

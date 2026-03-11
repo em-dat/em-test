@@ -48,6 +48,7 @@ def valid_emdat_row():
         "Total Damage, Adjusted ('000 US$)": None,
         "CPI": 100.0,
         "Admin Units": None,
+        "GADM Admin Units": None,
         "Entry Date": pd.Timestamp("2024-01-01"),
         "Last Update": pd.Timestamp("2024-01-01")
     }

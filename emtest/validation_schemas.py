@@ -521,6 +521,19 @@ emdat_schema = DataFrameSchema(
             ],
             nullable=True
         ),
+        "GADM Admin Units": Column(
+            str,
+            checks=[
+                # See custom_checks.py
+                Check(
+                    is_valid_json,
+                    description="Test whether value is a json string",
+                    error="Invalid JSON string",
+                    element_wise=True
+                ),
+            ],
+            nullable=True
+        ),
         "Entry Date": Column(
             Timestamp,
             checks=[
