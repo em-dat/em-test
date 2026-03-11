@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, dev/v2026.01 ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, dev/v2026.01 ]
 
 jobs:
   test:
