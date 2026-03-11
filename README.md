@@ -64,75 +64,30 @@ git clone https://github.com/em-dat/EM-TEST.git
 ```
 
 2. Navigate to the project's directory
-3. Create and activate a virtual environment (choose one)
+3. Create and activate a virtual environment
 
-- Using uv (recommended):
-
-  If you already have a uv environment, just activate it.
-
-  macOS/Linux:
-
-  ```bash
-  source .venv/bin/activate
-  ```
-
-  Windows (PowerShell):
-
-  ```powershell
-  .\.venv\Scripts\Activate
-  ```
-
-  To create one (if needed):
-
-  macOS/Linux:
-
-  ```bash
-  uv venv --python 3.13 .venv
-  source .venv/bin/activate
-  ```
-
-  Windows (PowerShell):
-
-  ```powershell
-  uv venv --python 3.13 .venv
-  .\.venv\Scripts\Activate
-  ```
-
-- Alternatively, using the standard venv module:
-
-  macOS/Linux:
-
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  ```
-
-  Windows (PowerShell):
-
-  ```powershell
-  python -m venv .venv
-  .\.venv\Scripts\Activate
-  ```
-
-4. Install the project and its dependencies
-
-- Using uv (recommended):
-
+- Using **uv** (recommended):
+  See the [uv documentation](https://docs.astral.sh/uv/getting-started/installation/) for installation and setup.
+  Once `uv` is installed, you can simply run:
   ```bash
   uv sync
   ```
+  This will create a virtual environment and install all dependencies (including dev).
 
-- Using pip:
-
+- Alternatively, using the standard **venv** and **pip**:
   ```bash
-  python -m pip install -e .
+  python -m venv .venv
+  # Activate (macOS/Linux)
+  source .venv/bin/activate
+  # Activate (Windows PowerShell)
+  .\.venv\Scripts\Activate
+
+  python -m pip install -e ".[dev]"
   ```
 
 Notes:
-
 - `uv sync` uses `pyproject.toml` and the committed `uv.lock` to create a fully
   reproducible environment and install the project for development.
-- If you don’t have uv installed, see https://docs.astral.sh/uv/.
 
 Check out the subsequent sections to understand how to use the project.
 
@@ -155,6 +110,17 @@ emdat_schema.validate(emdat)
 ```
 
 See the "examples" folder of this repository.
+
+### Running Tests
+
+If you have installed the development dependencies, you can run the test suite
+using `pytest`:
+
+```bash
+python -m pytest
+```
+
+This will execute all validation tests and unit tests for custom checks.
 
 ## EM-DAT Validation Schema
 
