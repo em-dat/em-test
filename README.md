@@ -10,7 +10,7 @@ data, built on the [`pandas`](https://pandas.pydata.org/) and
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
 
 > [!IMPORTANT]
-> This version of EM-TEST has been built for EM-DAT public data on 2024/08/26.
+> This version of EM-TEST has been built for EM-DAT public data on 2026/03/11.
 > Some tests might fail for versions prior to this date. EM-TEST is not
 > suitable for EM-DAT versions prior to September 26, 2023.
 
