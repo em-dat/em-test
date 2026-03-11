@@ -7,10 +7,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emtest"
-version = "2024.12.0"
+version = "2026.03.0"
 description = "Data validation for EM-DAT datasets."
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.11,<4"
+requires-python = ">=3.9,<4"
 license = { file = "LICENSE" }
 authors = [
   { name = "Damien Delforge", email = "damien.delforge@uclouvain.be" },
@@ -23,16 +23,19 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "pandera>=0.27,<0.28",
-  "pandas>=2.3,<2.4",
-  "numpy>=2.3,<2.4",
-  "openpyxl>=3.1,<3.2",
-  "toml>=0.10,<0.11",
+  "pandera>=0.21",
+  "pandas>=2.2",
+  "numpy>=1.26,<2.0",
+  "openpyxl>=3.1",
+  "toml>=0.10",
 ]
 
 [project.optional-dependencies]

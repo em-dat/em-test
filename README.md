@@ -39,16 +39,17 @@ So, why use EM-TEST? Here are five reasons:
 
 ### Prerequisites
 
-EM-TEST targets **Python 3.11+** and is known to work on Python 3.11–3.13. The
+EM-TEST targets **Python 3.9+** and is known to work on Python 3.9–3.14. The
 maintainer currently uses Python 3.13 with `uv`.
 
 Dependencies:
 
 ```
-openpyxl~=3.1
-pandas~=2.2
-pandera~=0.20
-toml~=0.10
+openpyxl>=3.1
+pandas>=2.2
+pandera>=0.21
+numpy>=1.26,<2.0
+toml>=0.10
 ```
 
 ### Installation

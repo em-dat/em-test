@@ -3,7 +3,7 @@
 
 import json
 import re
-from typing import Any, Literal
+from typing import Any, Literal, Optional, Union
 
 import pandas as pd
 from pandera.typing import Series
@@ -64,7 +64,7 @@ def check_disno_vs_start_year(start_year: Series[int]) -> Series[bool]:
     return disno_year == start_year
 
 
-def validate_external_id(external_id: str | None) -> bool:
+def validate_external_id(external_id: Optional[str]) -> bool:
     """Validates external ID regex patterns.
     """
     glide_pattern = r"GLIDE:[A-Z]{2}-\d{4}-\d{6}"
