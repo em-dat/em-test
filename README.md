@@ -1,5 +1,8 @@
 # EM-TEST
 
+[![Tests](https://github.com/em-dat/em-test/actions/workflows/tests.yml/badge.svg)](https://github.com/em-dat/em-test/actions/workflows/tests.yml)
+![Python Versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14275790.svg)](https://doi.org/10.5281/zenodo.14275790)
 
 EM-TEST is a testing framework for [EM-DAT](https://www.emdat.be/) public
