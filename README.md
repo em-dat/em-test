@@ -42,54 +42,32 @@ So, why use EM-TEST? Here are five reasons:
 
 ### Prerequisites
 
-EM-TEST targets **Python 3.9+** and is known to work on Python 3.9–3.14. The
-maintainer currently uses Python 3.13 with `uv`.
+EM-TEST targets **Python 3.9+** and is known to work on Python 3.9–3.14.
 
-Dependencies:
-
-```
-openpyxl>=3.1
-pandas>=2.2
-pandera>=0.21
-numpy>=1.26,<2.0
-toml>=0.10
-```
+Refer to the `pyproject.toml` file for the list of required dependencies.
 
 ### Installation
 
-1. Download the project or clone the repository to your local machine using Git
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/em-dat/EM-TEST.git
+cd EM-TEST
 ```
 
-2. Navigate to the project's directory
-3. Create and activate a virtual environment
+2. Set up the environment:
 
-- Using **uv** (recommended):
-  See the [uv documentation](https://docs.astral.sh/uv/getting-started/installation/) for installation and setup.
-  Once `uv` is installed, you can simply run:
+- **Using uv (recommended):**
   ```bash
-  uv sync
+  uv sync --all-extras --dev
   ```
-  This will create a virtual environment and install all dependencies (including dev).
 
-- Alternatively, using the standard **venv** and **pip**:
+- **Using pip:**
   ```bash
   python -m venv .venv
-  # Activate (macOS/Linux)
-  source .venv/bin/activate
-  # Activate (Windows PowerShell)
-  .\.venv\Scripts\Activate
-
+  source .venv/bin/activate  # Or .\.venv\Scripts\Activate on Windows
   python -m pip install -e ".[dev]"
   ```
-
-Notes:
-- `uv sync` uses `pyproject.toml` and the committed `uv.lock` to create a fully
-  reproducible environment and install the project for development.
-
-Check out the subsequent sections to understand how to use the project.
 
 ### Validate EM-DAT Content
 
@@ -117,7 +95,7 @@ If you have installed the development dependencies, you can run the test suite
 using `pytest`:
 
 ```bash
-python -m pytest
+uv run pytest
 ```
 
 This will execute all validation tests and unit tests for custom checks.
