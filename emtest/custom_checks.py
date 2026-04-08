@@ -3,16 +3,50 @@
 
 import json
 import re
-from typing import Any, Literal
+from typing import Any, Literal, Optional, Union
 
 import pandas as pd
 from pandera.typing import Series
 
-from .validation_data.areas import ADM1_GAUL_LIST, ADM2_GAUL_LIST
+from .validation_data.areas import ADM1_GAUL_LIST, ADM2_GAUL_LIST, \
+    SUBREGION_LIST, REGION_LIST, COUNTRY_LIST, ISO3_LIST
+from .validation_data.classification import KEY_LIST, GROUP_LIST, TYPE_LIST, \
+    SUBTYPE_LIST, SUBGROUP_LIST
+from .validation_data.magnitude import MAG_UNIT_LIST
 
 
 # Single Checks
 # -------------
+
+def check_disno(disno: Series[str]) -> Series[bool]:
+    """Check that disno is in the correct format."""
+    return disno.str.match(
+        r"^\d{4}-\d{4}-[A-Z]{3}$", na=False
+    )
+
+def check_yes_no(yes_no: Series[str]) -> Series[bool]:
+    """Check that yes_no is in the correct format."""
+    return yes_no.isin(['Yes', 'No'])
+
+def check_classification_key(classification_key: Series[str]) -> Series[bool]:
+    """Check that classification key is in the correct format."""
+    return classification_key.isin(KEY_LIST)
+
+def check_group(group: Series[str]) -> Series[bool]:
+    """Check that group is in the correct format."""
+    return group.isin(GROUP_LIST)
+
+def check_subgroup(subgroup: Series[str]) -> Series[bool]:
+    """Check that subgroup is in the correct format."""
+    return subgroup.isin(SUBGROUP_LIST)
+
+def check_type(dis_type: Series[str]) -> Series[bool]:
+    """Check that dis_type is in the correct format."""
+    return dis_type.isin(TYPE_LIST)
+
+def check_subtype(subtype: Series[str]) -> Series[bool]:
+    """Check that subtype is in the correct format."""
+    return subtype.isin(SUBTYPE_LIST)
 
 def check_disno_vs_start_year(start_year: Series[int]) -> Series[bool]:
     """Check that disno year is the same as start year."""
@@ -30,12 +64,13 @@ def check_disno_vs_start_year(start_year: Series[int]) -> Series[bool]:
     return disno_year == start_year
 
 
-def validate_external_id(external_id: str | None) -> bool:
+def validate_external_id(external_id: Optional[str]) -> bool:
     """Validates external ID regex patterns.
     """
     glide_pattern = r"GLIDE:[A-Z]{2}-\d{4}-\d{6}"
     usgs_pattern = r"USGS:[0-9a-zA-Z]{10}"
     dfo_pattern = r"DFO:\d{4}"
+    hanze_pattern = r"HANZE:\d{1,5}"
     if external_id != external_id:  # Skip NaN
         return True
     ids = external_id.split("|")
@@ -44,12 +79,14 @@ def validate_external_id(external_id: str | None) -> bool:
         if (
                 re.match(glide_pattern, id_) or
                 re.match(usgs_pattern, id_) or
-                re.match(dfo_pattern, id_)
+                re.match(dfo_pattern, id_) or
+                re.match(hanze_pattern, id_)
         ):
             valid |= bool(
                 re.match(glide_pattern, id_) or
                 re.match(usgs_pattern, id_) or
-                re.match(dfo_pattern, id_)
+                re.match(dfo_pattern, id_) or
+                re.match(hanze_pattern, id_)
             )
     return valid
 
@@ -102,6 +139,37 @@ def validate_iso3_code(iso3_country_code: Series[str]) -> Series[bool]:
     """
     return iso3_country_code.str.match(r'^[A-Z]{3}$')
 
+def check_iso3_code(iso3_country_code: Series[str]) -> Series[bool]:
+    """Check that country is in the correct format."""
+    return iso3_country_code.isin(ISO3_LIST)
+
+
+def check_country(country: Series[str]) -> Series[bool]:
+    """Check that country is in the correct format."""
+    return country.isin(COUNTRY_LIST)
+
+
+def check_subregion(subregion: Series[str]) -> Series[bool]:
+    """Check that subregion is in the correct format."""
+    return subregion.isin(SUBREGION_LIST)
+
+
+def check_region(region: Series[str]) -> Series[bool]:
+    """Check that region is in the correct format."""
+    return region.isin(REGION_LIST)
+
+def check_magnitude_unit(magnitude_unit: Series[str]) -> Series[bool]:
+    """Check that magnitude unit is in the correct format."""
+    return magnitude_unit.isin(MAG_UNIT_LIST)
+
+def check_day(day: Series[int]) -> Series[bool]:
+    """Check that day is in the correct range (1-31)."""
+    return day.between(1, 31)
+
+def check_month(month: Series[int]) -> Series[bool]:
+    """Check that month is in the correct range (1-12)."""
+    return month.between(1, 12)
+
 
 # Wide Checks
 # -----------
@@ -137,7 +205,7 @@ def check_heatwave_magnitude(df: pd.DataFrame) -> Series[bool]:
 def check_other_magnitude(df: pd.DataFrame) -> Series[bool]:
     """Check that heat wave is in realistic range"""
     is_other = ~((df['Classification Key'].str.startswith('nat-geo-ear')) |
-                (df['Classification Key'].str.startswith('nat-met-ext')))
+                 (df['Classification Key'].str.startswith('nat-met-ext')))
     return ~is_other | df['Magnitude'] > 0
 
 

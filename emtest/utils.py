@@ -1,4 +1,5 @@
 import copy
+from typing import Optional
 
 import pandas as pd
 from pandera import DataFrameSchema, Check
@@ -25,7 +26,7 @@ def get_validation_report(
         schema: DataFrameSchema,
         add_warnings: bool = False,
         deduplicate_wide: bool = True,
-) -> pd.DataFrame | None:
+) -> Optional[pd.DataFrame]:
     """Return schema errors as a dataframe report"""
     if add_warnings:
         schema = set_warnings_to_errors(schema)

@@ -13,7 +13,7 @@ License: MIT
 
 import pandas as pd
 
-EMDAT_PATH: str = 'data/fake_emdat_test.xlsx'
+EMDAT_PATH: str = '../data/fake_emdat_test.xlsx'
 CSV_OUTPUT_NAME: str = 'emdat_test_failure.csv'
 
 

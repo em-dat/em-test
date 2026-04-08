@@ -1,5 +1,8 @@
 # EM-TEST
 
+[![Tests](https://github.com/em-dat/em-test/actions/workflows/tests.yml/badge.svg)](https://github.com/em-dat/em-test/actions/workflows/tests.yml)
+![Python Versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14275790.svg)](https://doi.org/10.5281/zenodo.14275790)
 
 EM-TEST is a testing framework for [EM-DAT](https://www.emdat.be/) public
@@ -7,14 +10,14 @@ data, built on the [`pandas`](https://pandas.pydata.org/) and
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
 
 > [!IMPORTANT]
-> This version of EM-TEST has been built for EM-DAT public data on 2024/08/26.
+> This version of EM-TEST has been built for EM-DAT public data on 2026/04/08.
 > Some tests might fail for versions prior to this date. EM-TEST is not
 > suitable for EM-DAT versions prior to September 26, 2023.
 
 ## Why using EM-TEST?
 
 The EM-DAT database is a long-lasting project that has started in 1988. In the
-past, data was encoded manually sometimes using free text fields without
+past, data was encoded manually, sometimes using free text fields without
 constraints. The EM-TEST framework was initially developed to identify issues
 in the data, prior to the redesign of the database. EM-TEST is to some extent
 redundant with many existing constraints in the EM-DAT database.
@@ -39,48 +42,32 @@ So, why use EM-TEST? Here are five reasons:
 
 ### Prerequisites
 
-EM-TEST was developed using **Python 3.11** with the following dependencies:
+EM-TEST targets **Python 3.9+** and is known to work on Python 3.9–3.14.
 
-```
-openpyxl~=3.1
-pandas~=2.2
-pandera~=0.20
-toml~=0.10
-```
+Refer to the `pyproject.toml` file for the list of required dependencies.
 
 ### Installation
 
-1. Download the project or clone the repository to your local machine using Git
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/em-dat/EM-TEST.git
+cd EM-TEST
 ```
 
-2. Navigate to the project's directory
-3. Create a Python virtual environment (or alternatives)
+2. Set up the environment:
 
-On macOS and Linux:
+- **Using uv (recommended):**
+  ```bash
+  uv sync --all-extras --dev
+  ```
 
-```bash
-python3 -m venv env       # Create virtual environment
-source env/bin/activate   # Activate virtual environment
-```
-
-On Windows:
-
-```bash
-python -m venv env            # Create virtual environment
-.\env\Scripts\activate    # Activate virtual environment
-```
-
-4. Install the project and its dependencies
-
-```bash
-pip install -r requirements.txt    # Install the dependencies
-python setup.py install            # Install the project
-```
-
-Check out the subsequent sections to understand how to use the project.
+- **Using pip:**
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate  # Or .\.venv\Scripts\Activate on Windows
+  python -m pip install -e ".[dev]"
+  ```
 
 ### Validate EM-DAT Content
 
@@ -101,6 +88,17 @@ emdat_schema.validate(emdat)
 ```
 
 See the "examples" folder of this repository.
+
+### Running Tests
+
+If you have installed the development dependencies, you can run the test suite
+using `pytest`:
+
+```bash
+uv run pytest
+```
+
+This will execute all validation tests and unit tests for custom checks.
 
 ## EM-DAT Validation Schema
 
@@ -155,6 +153,7 @@ schema.
 | Total Damage, Adjusted ('000 US$)         | float     | True     | False  |
 | CPI                                       | float     | True     | False  |
 | Admin Units                               | str       | True     | False  |
+| GADM Admin Units                          | str       | True     | False  |
 | Entry Date                                | Timestamp | False    | False  |
 | Last Update                               | Timestamp | False    | False  |
 
@@ -179,16 +178,16 @@ that are not listed in the currently used reference
 See [EM-DAT Documentation](https://doc.emdat.be/docs/data-structure-and-content/spatial-information/#united-nations-m49-standard-country-or-area-codes)).
 EM-DAT has a few exceptions for oversea
 territories and historical countries not included in the current reference.
-This is somewhat normal given polical changes throughout History, yet,
-EM-TEST allows to explicitly flag which cases are in EM-DAT thanks to the
+This is somewhat normal given political changes throughout History, yet,
+EM-TEST allows explicitly flaging which cases are in EM-DAT thanks to the
 implemented warning.
 
 Regarding the warning comparing the Start Year to the year included in the
-DisNo., `check_disno_vs_start_year `, both year should be identical. However,
+DisNo., `check_disno_vs_start_year `, both years should be identical. However,
 it may happen that in the final reference used to describe the disaster event,
-the official start date has been updated. Such a change is more likely for slow
-onset disasters like droughts. For this reason, the test is implemented as a
-warning that will retrieve these cases, as well as potential errors in the
+the official start date has been updated. Such a change is more likely for 
+slow-onset disasters like droughts. For this reason, the test is implemented as 
+a warning that will retrieve these cases, as well as potential errors in the
 year definition.
 
 Finally, we test the 'CPI' value to be in the range 0-110. Technically,
@@ -246,6 +245,7 @@ See [EM-DAT Documentation](https://doc.emdat.be/docs/protocols/economic-adjustme
 | Total Damage, Adjusted ('000 US$)         | greater_than(0.)                 | Test whether value is greater than 0                   | Error     |
 | CPI                                       | in_range(0., 110.)               | Test whether value is within range 0-110.              | Warning   |
 | Admin Units                               | is_valid_json                    | Test whether value is a json string                    | Error     |
+| GADM Admin Units                          | is_valid_json                    | Test whether value is a json string                    | Error     |
 | Entry Date                                | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
 | Last Update                               | in_range(1988/1/1, CURRENT_DATE) | Test whether value is within valid date range          | Error     |
 
@@ -276,7 +276,7 @@ multi-column checks are listed below.
 ## How to Contribute?
 
 If you notice an anomaly in the EM-DAT public data that could be prevented using
-the EM-TEST framework, we encourage you to submit an issue, using the [GitHub
+the EM-TEST framework, we encourage you to submit an issue using the [GitHub
 issue tracker](https://github.com/em-dat/em-test/issues). We will consider
 the addition of new tests to update the framework.
 
@@ -291,17 +291,17 @@ citation below or the citation metadata file `CITATION.cff`.
                   Wathelet, Valentin},
   title        = {EM-TEST: A Testing Framework for the EM-DAT Data},
   month        = dec,
-  year         = 2024,
+  year         = 2026,
   publisher    = {Zenodo},
-  version      = {2024.12.0},
+  version      = {2026.04.0},
   doi          = {10.5281/zenodo.14275790},
   url          = {https://doi.org/10.5281/zenodo.14275790}
 }
 ```
 Or
 
->Delforge, D., & Wathelet, V. (2024). EM-TEST: A Testing Framework for the 
-> EM-DAT Data (2024.12.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
+>Delforge, D., & Wathelet, V. (2026). EM-TEST: A Testing Framework for the 
+> EM-DAT Data (2026.04.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
 
 ## Useful Links
 
