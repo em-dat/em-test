@@ -10,7 +10,7 @@ data, built on the [`pandas`](https://pandas.pydata.org/) and
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
 
 > [!IMPORTANT]
-> This version of EM-TEST has been built for EM-DAT public data on 2026/03/11.
+> This version of EM-TEST has been built for EM-DAT public data on 2026/04/08.
 > Some tests might fail for versions prior to this date. EM-TEST is not
 > suitable for EM-DAT versions prior to September 26, 2023.
 
@@ -291,17 +291,17 @@ citation below or the citation metadata file `CITATION.cff`.
                   Wathelet, Valentin},
   title        = {EM-TEST: A Testing Framework for the EM-DAT Data},
   month        = dec,
-  year         = 2024,
+  year         = 2026,
   publisher    = {Zenodo},
-  version      = {2024.12.0},
+  version      = {2026.04.0},
   doi          = {10.5281/zenodo.14275790},
   url          = {https://doi.org/10.5281/zenodo.14275790}
 }
 ```
 Or
 
->Delforge, D., & Wathelet, V. (2024). EM-TEST: A Testing Framework for the 
-> EM-DAT Data (2024.12.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
+>Delforge, D., & Wathelet, V. (2026). EM-TEST: A Testing Framework for the 
+> EM-DAT Data (2026.04.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
 
 ## Useful Links
 

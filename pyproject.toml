@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emtest"
-version = "2026.03.0"
+version = "2026.04.0"
 description = "Data validation for EM-DAT datasets."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.9,<4"

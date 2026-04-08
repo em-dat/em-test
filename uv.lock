@@ -199,7 +199,7 @@ wheels = [
 
 [[package]]
 name = "emtest"
-version = "2026.3.0"
+version = "2026.4.0"
 source = { editable = "." }
 dependencies = [
     { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
