@@ -7,7 +7,6 @@ from pandera.errors import SchemaErrors
 
 WIDE_CHECKS_TO_KEEP: dict[str, list[str]] = {
     'Missing latitude or longitude coordinates': ['Latitude', 'Longitude'],
-    'Start date and end date inconsistency': ['Start Year'],
     'Invalid coldwave magnitude': ['Magnitude'],
     'Invalid earthquake magnitude': ['Magnitude'],
     'Invalid heatwave magnitude': ['Magnitude'],
@@ -18,7 +17,6 @@ WIDE_CHECKS_TO_KEEP: dict[str, list[str]] = {
     'Start date inconsistency at the month resolution': ['Start Month'],
     'Start date inconsistency at the day resolution': ['Start Day']
 }
-
 
 
 def get_validation_report(

@@ -242,9 +242,13 @@ def _convert_to_date(
         else:
             return str(int(x)).zfill(2)
 
+    year = df[f'{start_or_end} Year'].apply(
+        lambda x: None if pd.isna(x) else str(int(x))
+    )
+
     if resolution == 'day':
         return pd.to_datetime(
-            df[f'{start_or_end} Year'].astype(str) +
+            year +
             df[f'{start_or_end} Month'].apply(float_to_string) +
             df[f'{start_or_end} Day'].apply(float_to_string),
             format='%Y%m%d',
@@ -252,13 +256,13 @@ def _convert_to_date(
         )
     elif resolution == 'month':
         return pd.to_datetime(
-            df[f'{start_or_end} Year'].astype(str) +
+            year +
             df[f'{start_or_end} Month'].apply(float_to_string),
             format='%Y%m',
             errors='coerce'
         )
     elif resolution == 'year':
-        return pd.to_datetime(df[f'{start_or_end} Year'], format='%Y')
+        return pd.to_datetime(year, format='%Y', errors='coerce')
 
 
 def _extract_GAUL_code(d: dict) -> tuple[int, int]:
