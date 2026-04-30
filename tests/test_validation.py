@@ -20,12 +20,8 @@ def test_invalid_classification_key(valid_df):
         emdat_schema.validate(valid_df)
 
 def test_invalid_iso_code(valid_df):
-    """Test that an invalid 'ISO' code fails (regex check)."""
-    valid_df.loc[valid_df.index[0], "ISO"] = "BXX" # Invalid 3-letter code if we strictly check against reference, but let's see if regex fails it first
-    # The schema has two checks on ISO: validate_iso3_code (regex) and check_iso3_code (list check, warning only)
-    # Let's try one that fails regex:
+    """Test that a non-alphabetic ISO code fails the regex check and raises a warning."""
     valid_df.loc[valid_df.index[0], "ISO"] = "123"
-    # We expect a SchemaError for regex AND a SchemaWarning for the list check
     with pytest.warns(pa.errors.SchemaWarning, match="ISO3 code not in reference list"):
         with pytest.raises(pa.errors.SchemaError, match="Invalid ISO3 code"):
             emdat_schema.validate(valid_df)
@@ -34,7 +30,6 @@ def test_invalid_disno_index(valid_df):
     """Test that an invalid 'DisNo.' index pattern fails."""
     valid_df.index = ["INVALID-DISNO"]
     valid_df.index.name = "DisNo."
-    # We expect a SchemaError for the index pattern AND a SchemaWarning for the Start Year vs DisNo. check
     with pytest.warns(pa.errors.SchemaWarning, match="Start year differs from DisNo year"):
         with pytest.raises(pa.errors.SchemaError, match="Invalid DisNo. Pattern"):
             emdat_schema.validate(valid_df)
@@ -48,13 +43,55 @@ def test_magnitude_range_checks(valid_df):
         emdat_schema.validate(valid_df)
 
 def test_date_consistency(valid_df):
-    """Test that start date after end date fails."""
+    """Test that start month after end month within the same year fails."""
     valid_df.loc[valid_df.index[0], "Start Year"] = 2024
     valid_df.loc[valid_df.index[0], "Start Month"] = 12
     valid_df.loc[valid_df.index[0], "End Year"] = 2024
     valid_df.loc[valid_df.index[0], "End Month"] = 1
     with pytest.raises(pa.errors.SchemaError, match="Start date inconsistency at the month resolution"):
         emdat_schema.validate(valid_df)
+
+def test_start_year_after_end_year(valid_df):
+    """Test that start year after end year fails."""
+    valid_df.index = ["2025-0001-BEL"]
+    valid_df.index.name = "DisNo."
+    valid_df.loc[valid_df.index[0], "Start Year"] = 2025
+    valid_df.loc[valid_df.index[0], "End Year"] = 2024
+    with pytest.raises(pa.errors.SchemaError, match="Start date inconsistency at the year resolution"):
+        emdat_schema.validate(valid_df)
+
+def test_start_day_after_end_day(valid_df):
+    """Test that start day after end day within the same year and month fails."""
+    valid_df.loc[valid_df.index[0], "Start Month"] = 3.0
+    valid_df.loc[valid_df.index[0], "Start Day"] = 20.0
+    valid_df.loc[valid_df.index[0], "End Month"] = 3.0
+    valid_df.loc[valid_df.index[0], "End Day"] = 10.0
+    with pytest.raises(pa.errors.SchemaError, match="Start date inconsistency at the day resolution"):
+        emdat_schema.validate(valid_df)
+
+def test_date_consistency_skips_month_when_absent(valid_df):
+    """Test that missing months do not cause a false positive on the month check."""
+    valid_df.loc[valid_df.index[0], "Start Month"] = None
+    valid_df.loc[valid_df.index[0], "Start Day"] = None
+    valid_df.loc[valid_df.index[0], "End Month"] = None
+    valid_df.loc[valid_df.index[0], "End Day"] = None
+    emdat_schema.validate(valid_df)
+
+def test_date_consistency_skips_day_when_absent(valid_df):
+    """Test that missing days do not cause a false positive on the day check."""
+    valid_df.loc[valid_df.index[0], "Start Day"] = None
+    valid_df.loc[valid_df.index[0], "End Day"] = None
+    emdat_schema.validate(valid_df)
+
+def test_date_consistency_cross_year_no_false_positive(valid_df):
+    """Test that a cross-year event passes even when start month > end month."""
+    valid_df.index = ["2025-0001-BEL"]
+    valid_df.index.name = "DisNo."
+    valid_df.loc[valid_df.index[0], "Start Year"] = 2025
+    valid_df.loc[valid_df.index[0], "Start Month"] = 6.0
+    valid_df.loc[valid_df.index[0], "End Year"] = 2026
+    valid_df.loc[valid_df.index[0], "End Month"] = 3.0
+    emdat_schema.validate(valid_df)
 
 def test_lat_lon_consistency(valid_df):
     """Test that having only one of Latitude/Longitude fails."""

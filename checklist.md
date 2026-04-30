@@ -28,6 +28,7 @@ This checklist outlines the items to check, modify, and do before finalizing the
 
 ## 5. Testing and CI/CD
 - [ ] Run the full test suite using `pytest`.
+- [ ] Expand CI workflow to include version branch testing.
 - [ ] Ensure all GitHub Actions workflows are passing.
 - [ ] Add regression tests for any bugs fixed in this release cycle.
 - [ ] Verify that the package can be built successfully (`python -m build`).
