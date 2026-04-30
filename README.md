@@ -3,14 +3,14 @@
 [![Tests](https://github.com/em-dat/em-test/actions/workflows/tests.yml/badge.svg)](https://github.com/em-dat/em-test/actions/workflows/tests.yml)
 ![Python Versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14275790.svg)](https://doi.org/10.5281/zenodo.14275790)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.14275790-blue)](https://doi.org/10.5281/zenodo.14275790)
 
 EM-TEST is a testing framework for [EM-DAT](https://www.emdat.be/) public
 data, built on the [`pandas`](https://pandas.pydata.org/) and
 [`pandera`](https://pandera.readthedocs.io/en/stable/) Python packages.
 
 > [!IMPORTANT]
-> This version of EM-TEST has been built for EM-DAT public data on 2026/04/08.
+> This version of EM-TEST has been built for EM-DAT public data on 2026/04/30.
 > Some tests might fail for versions prior to this date. EM-TEST is not
 > suitable for EM-DAT versions prior to September 26, 2023.
 
@@ -294,7 +294,7 @@ citation below or the citation metadata file `CITATION.cff`.
   month        = dec,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {2026.04.0},
+  version      = {2026.05.0},
   doi          = {10.5281/zenodo.14275790},
   url          = {https://doi.org/10.5281/zenodo.14275790}
 }
@@ -302,7 +302,7 @@ citation below or the citation metadata file `CITATION.cff`.
 Or
 
 >Delforge, D., & Wathelet, V. (2026). EM-TEST: A Testing Framework for the 
-> EM-DAT Data (2026.04.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
+> EM-DAT Data (2026.05.0). Zenodo. https://doi.org/10.5281/zenodo.14275790
 
 ## Useful Links
 
