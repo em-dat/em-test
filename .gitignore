@@ -43,3 +43,6 @@ AI agents
 data/260311_emdat_new.xlsx
 test_emdat.py
 
+
+# Local environment
+.venv/

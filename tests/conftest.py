@@ -1,3 +1,5 @@
+import json
+
 import pytest
 import pandas as pd
 
@@ -60,3 +62,72 @@ def valid_df(valid_emdat_row):
     df.index = ["2024-0001-BEL"]
     df.index.name = "DisNo."
     return df
+
+
+def to_api_shape(rows, disnos):
+    """Render Excel-shaped rows as the EM-DAT API would return them.
+
+    Inverts the three value-level conventions the adapter reconciles, so the
+    fixtures stay in sync with COLUMN_MAP rather than restating column names.
+
+    Parameters
+    ----------
+    rows : list of dict
+        Excel-shaped records, as produced by the valid_emdat_row fixture.
+    disnos : list of str
+        DisNo. identifier for each row.
+
+    Returns
+    -------
+    pandas.DataFrame
+        API-shaped frame, including the API-only fields the adapter drops.
+    """
+    from emtest.adapters import COLUMN_MAP, JSON_COLUMNS, YES_NO_COLUMNS
+
+    api_rows = []
+    for row, disno in zip(rows, disnos):
+        api = {"disno": disno}
+        for excel_col, value in row.items():
+            if excel_col in YES_NO_COLUMNS:
+                value = None if value is None else value == "Yes"
+            elif excel_col in JSON_COLUMNS:
+                value = None if value is None else json.loads(value)
+            elif excel_col in ("Entry Date", "Last Update"):
+                value = value.isoformat()
+            api[COLUMN_MAP[excel_col]] = value
+        api["external_ids_dict"] = None
+        api["associated_types_list"] = None
+        api["region_code"] = 150
+        api["subregion_code"] = 155
+        api_rows.append(api)
+    return pd.DataFrame(api_rows)
+
+
+@pytest.fixture
+def api_df(valid_emdat_row):
+    """Provides a valid single-row EM-DAT API response."""
+    return to_api_shape([valid_emdat_row], ["2024-0001-BEL"])
+
+
+@pytest.fixture
+def geocoded_emdat_row(valid_emdat_row):
+    """Provides a valid row with populated admin units and an earthquake.
+
+    Exercises the JSON and magnitude paths the plain fixture leaves null.
+    """
+    row = dict(valid_emdat_row)
+    row.update({
+        "Classification Key": "nat-geo-ear-gro",
+        "Disaster Subgroup": "Geophysical",
+        "Disaster Type": "Earthquake",
+        "Disaster Subtype": "Ground movement",
+        "Magnitude": 6.1,
+        "Admin Units": json.dumps([
+            {"adm1_code": 442, "adm1_name": "Liege"},
+            {"adm2_code": 8823, "adm2_name": "Liege"},
+        ]),
+        "GADM Admin Units": json.dumps([
+            {"gid_1": "BEL.7_1", "adm1_name": "Liege"},
+        ]),
+    })
+    return row
