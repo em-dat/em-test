@@ -37,7 +37,10 @@ Desktop.ini
 *.tmp
 
 AI agents
-.junie/memory
+.junie
+.claude
+CLAUDE.md
+ROADMAP.md
 
 # EM-DAT files for testing
 data/260311_emdat_new.xlsx
