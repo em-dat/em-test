@@ -92,6 +92,8 @@ def run_query(query: str) -> dict:
     try:
         with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
             payload = json.load(response)
+    except ValueError as exc:
+        raise RuntimeError(f'{API_URL} did not return JSON') from exc
     except urllib.error.HTTPError as exc:
         detail = 'check your API key' if exc.code == 401 else exc.reason
         raise RuntimeError(
@@ -103,7 +105,12 @@ def run_query(query: str) -> dict:
     if payload.get('errors'):
         raise RuntimeError(f'EM-DAT API returned errors: {payload["errors"]}')
 
-    return payload['data']['public_emdat']
+    try:
+        return payload['data']['public_emdat']
+    except (KeyError, TypeError) as exc:
+        raise RuntimeError(
+            f'Unexpected response from {API_URL}: {payload}'
+        ) from exc
 
 
 def fetch_emdat(year: int = YEAR) -> pd.DataFrame:
