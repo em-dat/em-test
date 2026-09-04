@@ -137,7 +137,7 @@ def to_yes_no(value: Any) -> Any:
         if lowered in {"no", "false", "0"}:
             return "No"
         return value
-    if isinstance(value, (int, float)):
+    if isinstance(value, (int, float)) and value in (0, 1):
         return "Yes" if value else "No"
     return value
 
@@ -151,7 +151,7 @@ def to_json_string(value: Any) -> Any:
     Parameters
     ----------
     value : Any
-        Parsed admin units, a JSON string, or a null.
+        Parsed admin units as a sequence, a JSON string, or a null.
 
     Returns
     -------
@@ -166,8 +166,6 @@ def to_json_string(value: Any) -> Any:
         return value if value.strip() else pd.NA
     if isinstance(value, (list, tuple)):
         return json.dumps(list(value)) if len(value) else pd.NA
-    if isinstance(value, dict):
-        return json.dumps(value) if value else pd.NA
     return value
 
 
@@ -235,6 +233,10 @@ def api_to_excel_layout(
     for col in JSON_COLUMNS:
         out[col] = out[col].map(to_json_string)
 
+    # The one conversion that does not pass a bad value through: an
+    # unparseable date becomes NaT and is reported as a missing value.
+    # Leaving the string in place instead makes pandera report the value
+    # but adds two further rows per defect, one carrying a TypeError.
     for col in DATE_COLUMNS:
         out[col] = pd.to_datetime(out[col], errors="coerce")
 

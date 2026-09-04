@@ -130,7 +130,7 @@ def has_valid_GAUL_codes(json_data: Any) -> bool:
             [_is_valid_GAUL_code(code, level) for level, code in code_list]
         )
         return all_code_valid
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, AttributeError, TypeError):
         return False
 
 

@@ -3,6 +3,7 @@ import pandas as pd
 from emtest.custom_checks import (
     is_valid_json, 
     _is_valid_GAUL_code, 
+    has_valid_GAUL_codes,
     check_disno,
     check_yes_no,
     check_disno_vs_start_year
@@ -19,6 +20,10 @@ def test_is_valid_gaul_code():
     # Let's assume some codes exist or just test the logic if we can
     assert _is_valid_GAUL_code(1232, level=1) is True # Based on example in data_loader
     assert _is_valid_GAUL_code(999999, level=1) is False
+
+def test_has_valid_gaul_codes_rejects_json_object():
+    # An object rather than a list of admin units is reported, not raised
+    assert has_valid_GAUL_codes('{"adm1_code": 1232}') is False
 
 def test_check_disno():
     s = pd.Series(["2024-0001-BEL", "1900-9999-USA"])

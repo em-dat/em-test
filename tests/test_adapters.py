@@ -122,6 +122,11 @@ def test_to_yes_no_passes_through_unknown():
     assert to_yes_no("Maybe") == "Maybe"
 
 
+def test_to_yes_no_passes_through_other_numbers():
+    """Test that only 0 and 1 are read as flags, so 2 stays reportable."""
+    assert to_yes_no(2) == 2
+
+
 def test_to_json_string_empty_list_is_null():
     """Test that an empty list is treated as missing, as in the Excel export."""
     assert pd.isna(to_json_string([]))
