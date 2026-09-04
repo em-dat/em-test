@@ -22,9 +22,10 @@ A `.venv` on Python 3.13 is already provisioned. 41 tests currently pass.
 Version bumped to `2026.09.0` in `emtest/__init__.py`, `CITATION.cff`
 (`date-released: 2026-09-04`) and `pyproject.toml`.
 
-**New: `emtest/adapters.py`** — `api_to_emtest()`, exported from `emtest`.
-Converts an EM-DAT GraphQL API response into the layout `emdat_schema`
-validates. Before this, EM-TEST could only consume the public Excel download.
+**New: `emtest/adapters.py`** — `api_to_excel_layout()`, exported from
+`emtest`. Converts an EM-DAT GraphQL API response into the public Excel
+download layout `emdat_schema` validates (in memory; it writes no file).
+Before this, EM-TEST could only consume the Excel download itself.
 
 Constraints to preserve when touching it:
 

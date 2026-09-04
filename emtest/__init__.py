@@ -5,7 +5,7 @@ from emtest.validation_schemas import (
     emdat_schema
 )
 from emtest.adapters import (
-    api_to_emtest,
+    api_to_excel_layout,
     COLUMN_MAP,
     API_TO_EXCEL
 )

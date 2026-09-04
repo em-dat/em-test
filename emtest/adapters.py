@@ -5,7 +5,7 @@ The `emdat_schema` is defined with `strict=True`, `ordered=True` and a
 download. Data obtained from the EM-DAT GraphQL API describes the same records
 in a different shape and cannot be validated as returned.
 
-The `api_to_emtest` function performs that conversion. It reshapes only:
+The `api_to_excel_layout` function performs that conversion. It reshapes only:
 values that violate the schema are left intact so that validation reports
 them.
 
@@ -23,7 +23,7 @@ __all__ = [
     "COLUMN_MAP",
     "API_TO_EXCEL",
     "API_ONLY_FIELDS",
-    "api_to_emtest",
+    "api_to_excel_layout",
     "to_yes_no",
     "to_json_string",
 ]
@@ -171,11 +171,14 @@ def to_json_string(value: Any) -> Any:
     return value
 
 
-def api_to_emtest(
+def api_to_excel_layout(
         df: pd.DataFrame,
         schema: Optional[Any] = None
 ) -> pd.DataFrame:
-    """Convert an EM-DAT API response to the layout the schema expects.
+    """Convert an EM-DAT API response to the public Excel download layout.
+
+    That layout is what the schema validates. The result is an in-memory
+    DataFrame; nothing is written to file.
 
     Six differences are reconciled: API-only fields are dropped, fields are
     renamed to the Excel headers, boolean flags become Yes/No, parsed admin

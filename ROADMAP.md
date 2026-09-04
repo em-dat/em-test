@@ -28,7 +28,7 @@ be passed to it at all — five differences blocked it:
 | Admin units | parsed `list[dict]` | JSON string |
 | Timestamps | ISO strings | `pd.Timestamp` |
 
-`api_to_emtest()` reconciles all five, exported from `emtest`. It reshapes
+`api_to_excel_layout()` reconciles all five, exported from `emtest`. It reshapes
 only — invalid values are left for validation to report. It takes a plain
 DataFrame, so it adds **no dependency** on any API client.
 

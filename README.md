@@ -91,6 +91,12 @@ See the "examples" folder of this repository.
 
 ### Validate EM-DAT Content from the API
 
+> [!IMPORTANT]
+> The EM-DAT GraphQL API is not public. Access is reserved to authorized
+> users, and API access requests are currently closed. This section applies
+> only if you already hold API credentials; everyone else should validate the
+> public Excel download as shown above.
+
 EM-DAT data obtained from the GraphQL API describes the same records in a
 different shape and cannot be validated as returned: field names are
 `snake_case`, four fields have no Excel counterpart, the `Historic`,
@@ -98,13 +104,14 @@ different shape and cannot be validated as returned: field names are
 `'Yes'`/`'No'`, admin units arrive parsed rather than as JSON strings, and
 dates arrive as strings.
 
-`api_to_emtest` reconciles those differences. It accepts any `pandas.DataFrame`
-using the API field names, so EM-TEST gains no dependency on an API client.
+`api_to_excel_layout` reconciles those differences, returning an in-memory
+`DataFrame` in that layout. It accepts any `pandas.DataFrame` using the API
+field names, so EM-TEST gains no dependency on an API client.
 
 ```python
-from emtest import emdat_schema, api_to_emtest
+from emtest import emdat_schema, api_to_excel_layout
 
-emdat = api_to_emtest(api_response)  # DataFrame of API records
+emdat = api_to_excel_layout(api_response)  # DataFrame of API records
 emdat_schema.validate(emdat)
 ```
 
